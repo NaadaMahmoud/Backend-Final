@@ -7,12 +7,9 @@ const vendorRouter = require('./router/vendor-product.router');
 const categoryRouter=require('./router/categoryRoute')
 const subCategoryRouter=require('./router/subCategoryRoute')
 const dbConnect = require('./config/database.config')
-// import dotenv from 'dotenv'
+
 dotenv.config();
-// import express from "express";
-// import cors from "cors"
-// import vendorRouter from './router/vendor-product.router'
-// import { dbConnect } from './config/database.config';
+
 
 dbConnect();
 
@@ -20,17 +17,18 @@ const app = express();
 
 //angular on localHost 4200
 //backend on localHost 5000
-//that's why we used cors
 
 var bodyParser = require('body-parser');
 
 app.use(express.urlencoded({extended:false}));
 app.use(bodyParser.json());
 
+app.use(express.static("images"));
+
 
 app.use(cors({
     credentials:true,
-    origin:'*'
+    origin:'http://localhost:4200'
 }));
 
 app.use("/vendor",vendorRouter)

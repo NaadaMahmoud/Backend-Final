@@ -8,7 +8,7 @@ const dbConnect = () =>{
         // useuNewUrlParser: true,
         useUnifiedTopology: true
     }).then(
-        ()=> console.log("connect successfully"),
+        ()=> console.log("Db connected successfully"),
         (error)=> console.log(error)
     )
 }
