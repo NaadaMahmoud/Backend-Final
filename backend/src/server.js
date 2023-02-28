@@ -3,6 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const vendorRouter = require('./router/vendor-product.router');
 const dbConnect = require('./config/database.config')
+const userRoute = require("./router/userRoute"); 
 
 dotenv.config();
 
@@ -27,6 +28,7 @@ app.use(cors({
 }));
 
 app.use("/vendor",vendorRouter)
+app.use("/users",userRoute)
 
 app.listen(5000,()=>{
     console.log("localhost : 5000")
