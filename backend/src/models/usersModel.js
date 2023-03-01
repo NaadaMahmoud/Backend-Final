@@ -20,6 +20,9 @@ let userSchema=mongoose.Schema({
     // zip:Number,
     taxNumber:Number,
     cart:{type:Array,required:true}
+
+    // taxNumber:Number,
+
 });
 
 

@@ -14,9 +14,9 @@ async function update_user_allData (email,newData){
 // ........... update_user_firstAndLastNames ..............
 
 async function update_user_firstAndLastNames (email,f_name,l_name){
-console.log("object");
+    // console.log("object");
     let update_user_firstAndLastNames = await userModel.updateOne({email:email},{f_name:f_name,l_name:l_name})
-console.log(update_user_firstAndLastNames);
+    console.log(update_user_firstAndLastNames);
     
     return update_user_firstAndLastNames ;
 }
@@ -24,12 +24,26 @@ console.log(update_user_firstAndLastNames);
 
 // ........... update_user_firstName ..............
 
-async function update_user_firstName (email,f_name){
+async function update_user_firstName (id,f_name){
 
-    let updated_user_firstName = await userModel.updateOne({email:email},{f_name:f_name})
-    console.log("updated_user_firstName_successfully")
-    console.log(updated_user_firstName)
-    return updated_user_firstName ;
+//     let updated_user_firstName = await userModel.findOne({_id:id})
+//     updated_user_firstName.f_name=f_name;
+//     console.log("updated_user_firstName_successfully")
+//     console.log(updated_user_firstName)
+//     return updated_user_firstName ;
+    // .................................................
+    userModel
+                .findOne({ _id: id })
+                .then((Data) => {
+                    Data.f_name = f_name;
+                    // Data.phoneNumber = body.phoneNumber;
+                    Data.save();
+                    
+                })
+                .catch((err) => {
+
+                });
+
 }
 
 
@@ -124,7 +138,7 @@ async function login_user (email){
 
 async function register_new_user (user_data){
     user_data.email=user_data.email.toLowerCase();
-    console.log(user_data.email);
+    // console.log(user_data.email);
     console.log("data from controller = ",user_data)
     let new_user = await userModel.create(user_data)
     return new_user
