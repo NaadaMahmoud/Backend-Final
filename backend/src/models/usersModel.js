@@ -18,7 +18,7 @@ let userSchema=mongoose.Schema({
     // city:String,
     // state:String,
     // zip:Number,
-    taxNumber:Number,
+    // taxNumber:Number,
 });
 
 
