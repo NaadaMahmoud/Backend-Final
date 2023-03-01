@@ -131,7 +131,11 @@ async function register_new_user (user_data){
 }
 
 
-
+///cart delete one item
+async function cart_delet_one_Product (Id) {
+    let res = await userModel.deleteOne({ _id: Id })
+    return res;
+}
 
 
 
@@ -170,7 +174,7 @@ module.exports={
 // async function login_user (email,password){
 //     // console.log("email in controller : "+email);
 //     // console.log("password in controller : "+password);
-//     let existed_user_data = await userModel.find({ 
+//     let existed_user_data = await userModel.find({
 //         $and:[{email:email},{password:password}]
 //     })
 //     return existed_user_data;
@@ -185,3 +189,6 @@ module.exports={
 // }
 
 // .........................................................
+
+
+
