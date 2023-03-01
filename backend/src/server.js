@@ -9,34 +9,36 @@ const subCategoryRouter=require('./router/subCategoryRoute')
 const dbConnect = require('./config/database.config')
 const userRoute = require("./router/userRoute"); 
 
+const app = express();
 dotenv.config();
 
-
 dbConnect();
-
-const app = express();
-
-//angular on localHost 4200
-//backend on localHost 5000
 
 var bodyParser = require('body-parser');
 
 app.use(express.urlencoded({extended:false}));
 app.use(bodyParser.json());
 
-app.use(express.static("images"));
+//to define the static files folder
+app.use(express.static("images")); 
 
-
+/////////////////////// cors ////////////////////////////////////
+//angular on localHost 4200
+//backend on localHost 5000
 app.use(cors({
     credentials:true,
     origin:'http://localhost:4200'
 }));
+
+///////////////////// routes ////////////////////////////
 
 app.use("/vendor",vendorRouter)
 app.use("/categories",categoryRouter)
 app.use("/subcategories",subCategoryRouter)
 app.use("/search",searchRouter)
 app.use("/users",userRoute)
+
+//////////////////////// port /////////////////////////
 
 app.listen(5000,()=>{
     console.log("localhost : 5000")

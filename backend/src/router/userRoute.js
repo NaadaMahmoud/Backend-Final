@@ -13,25 +13,37 @@ let secret = fs.readFileSync('secret.key')
 //************************ Update ************************
 
 route.post("/update",verifyToken,async function (req,res){
+    console.log(req.token)
     jwt.verify(req.token,secret,async (err,data)=>{
         if(err){
             // law mafe4 token 
             res.send(403)
         }
         else{
-            console.log("updated successfully");
-            if(req.body.f_name!="" && req.body.l_name!="")
-            {
-                console.log(typeof req.body.f_name)
-                console.log(req.body.f_name)
 
-                await userController.update_user_firstAndLastNames (req.body.f_name,req.body.l_name);
-            }
-            else if(req.body.f_name!="" )
-            {
-                console.log("ggggggggggggggggggggggggggggggggggggggggggggggggg")
+            // console.log("updated successfully");
 
-                data =await userController.update_user_firstName (req.body.f_name);
+            console.log("req.body = ++++++++++ ",req.body);
+            console.log("Data = ******** ",data);
+            // if(req.body.f_name!=""  req.body.l_name!="")
+            // {
+                // console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+
+                // // console.log(typeof req.body.f_name)
+                // // console.log(req.body.f_name)
+
+                // await userController.update_user_firstAndLastNames (data.email,req.body.f_name,req.body.l_name);
+            
+            // }
+            // else
+             if(req.body.f_name!=undefined )
+            {
+                //  data.f_name=req.body.f_name;
+                //  data.save()
+                 console.log("ggggggggggggggggggggggggggggggggggggggggggggggggg")
+
+                data =await userController.update_user_firstName (data._id,req.body.f_name);
+                console.log(data);
             }
             else if( req.body.l_name!="")
             {
@@ -64,7 +76,6 @@ route.post("/update",verifyToken,async function (req,res){
             }
             else{
                 console.log("ggggggggggggggggggggggggggggggggggggggggggggggggg")
-
                 await userController.update_user_allData (req.body);
             }
             res.json({
@@ -92,7 +103,7 @@ route.post("/register",async function (req,res){
         let exist=await userController.check_if_email_exist(req.body.email);
 
             if(exist[0]){
-            res.send("email aready exist")
+            res.send("email aready exist sssss")
         }
         else{
             // ............... dcrypt ...............
@@ -104,7 +115,8 @@ route.post("/register",async function (req,res){
             let new_user=await userController.register_new_user(req.body);
             res.json({
                 message:"Successfull regestration go to sign in",
-                user_data:new_user
+                status:200,
+                data:new_user,
             })
         }
 
@@ -134,7 +146,9 @@ route.post("/login",async function( req,res){
                 jwt.sign({data_of_login_user},secret,(err,token)=>{
       
                     res.json({
-                        user_data:user,
+                        message:"Login Successfully",
+                        status:200,
+                        data:user,
                         token:token,
                         userType:data_of_login_user[0].userType
                     })
