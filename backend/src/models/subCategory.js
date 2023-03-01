@@ -4,7 +4,7 @@ const subCategorySchema=new mongoose.Schema({
     trim:true,
     unique:[true,"This subcategory name already exsists"],
     minlength:[2,"Too short name"],
-    maxlength:[30,"Name exceeded maximum length"]},
+    maxlength:[60,"Name exceeded maximum length"]},
     category:{
         type:mongoose.Schema.ObjectId,
         ref:'Category',

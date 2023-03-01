@@ -7,6 +7,7 @@ const vendorRouter = require('./router/vendor-product.router');
 const categoryRouter=require('./router/categoryRoute')
 const subCategoryRouter=require('./router/subCategoryRoute')
 const dbConnect = require('./config/database.config')
+const userRoute = require("./router/userRoute"); 
 
 dotenv.config();
 
@@ -35,6 +36,7 @@ app.use("/vendor",vendorRouter)
 app.use("/categories",categoryRouter)
 app.use("/subcategories",subCategoryRouter)
 app.use("/search",searchRouter)
+app.use("/users",userRoute)
 
 app.listen(5000,()=>{
     console.log("localhost : 5000")
