@@ -3,7 +3,8 @@ const express = require('express');
 const cors = require('cors');
 const vendorRouter = require('./router/vendor-product.router');
 const dbConnect = require('./config/database.config')
-
+const route = require('./router/vendor-product.router.js');
+const mongoose = require('./config/database.config')
 dotenv.config();
 
 
