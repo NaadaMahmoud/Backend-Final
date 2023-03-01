@@ -1,9 +1,8 @@
 const express = require('express');
 const productModel = require("../models/vendor-products");
 const Router = express.Router;
-const asyncHandler = require('express-async-handler');
-const expressAsyncHandler = asyncHandler.expressAsyncHandler
 const productController = require('../controllers/vendor-products')
+const router = Router();
 const mongoTypes = require('mongoose').Types;
 
 /////////////// multer ////////////////////
@@ -17,11 +16,20 @@ const storage = multer.diskStorage({
         cb(null,Date.now()+file.originalname);
     }
 })
-const upload = multer({storage: storage})
+const multerFilter = function (req, file, cb) {
+    if (file.mimetype.split("/")[0] == "image") {
+        cb(null, true)
+    }
+    else {
+        cb(new Error("Not image"), false)
+    }
+}
+const upload = multer({
+    storage: storage,
+    fileFilter: multerFilter
+})
 
 //////////////////////////////////////////
-
-const router = Router();
 
 ///////////// All products ///////////////
 
