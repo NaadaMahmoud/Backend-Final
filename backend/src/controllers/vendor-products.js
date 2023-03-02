@@ -9,8 +9,7 @@ let allProducts = async(req,res)=>{
 let addProduct = async(req,res)=>{
     
     let check = await productModel.find({title:req.body.Title_Product});
-    console.log(check)
-    if(check){
+    if(check.length==0){
         //for multer
         let pathLink = "http://localhost:5000/"
         let arr=[];
@@ -60,7 +59,7 @@ var deleteProductController = async (req, res) =>
          res.send({ "status": false, "message": "Product Deleted failed" });
      }
 }
-module.exports = {allProducts, addProduct}
+
 
 //////////// Edit /////////////////
 var updateProductController = async (req, res) =>
@@ -76,3 +75,4 @@ var updateProductController = async (req, res) =>
          res.send({ "status": false, "message": "User Updateeeedddddd Faileddddddd" });
      }
 }
+module.exports = {allProducts, addProduct, deleteProductController, updateProductController}
