@@ -196,9 +196,6 @@ route.post("/deleteProduct/:id", async function (req, res) {
 
 
 
-
-
-
 // router.route("/find").get(function (req, res) {
 //     football.find(
 //         { "awards.award": "Golden Boot", "awards.numberOfTimes": 6 },
