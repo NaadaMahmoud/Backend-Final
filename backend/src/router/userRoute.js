@@ -168,7 +168,6 @@ route.post("/login",async function( req,res){
 
 
 
-
 //************************ verifyToken ************************
 
 // function verifyToken (req,res,next){
@@ -185,6 +184,35 @@ route.post("/login",async function( req,res){
 //         res.status(403).send("Error")
 //     }
 // }
+
+
+
+
+
+///cart delete one item
+route.post("/deleteProduct/:id", async function (req, res) {
+    let delete_Product = await userController.cart_delet_one_Product(req.params.id)
+    res.send(delete_Product)
+})
+
+
+
+
+
+
+// router.route("/find").get(function (req, res) {
+//     football.find(
+//         { "awards.award": "Golden Boot", "awards.numberOfTimes": 6 },
+//         function (err, result) {
+//             if (err) {
+//                 res.send(err);
+//             } else {
+//                 res.json(result);
+//             }
+//         }
+//     );
+// });
+
 
 
 
