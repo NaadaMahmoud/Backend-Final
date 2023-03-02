@@ -2,11 +2,13 @@ const express = require('express');
 const cartController = require('../controllers/cartController')
 const Router = express.Router;
 const router = Router();
+
+const {verifyToken} = require('../shared/functions')
 /////////////////////////////////////////////////////////////
 
 /////////////////// Add to Cart ////////////////////////////
 
-router.get('/add-to-cart',cartController.addToCart);
+router.post('/add-to-cart',verifyToken,cartController.addToCart);
 
 ////////////////// Update Cart //////////////////////////
 
@@ -19,3 +21,6 @@ router.delete('delete-from-cart',cartController.deleteFromCart)
 ////////////////// Empty Cart ////////////////////////////
 
 router.get('empty-cart',cartController.emptyCart)
+
+///////////////////////////////
+module.exports = router;
