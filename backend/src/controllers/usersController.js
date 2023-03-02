@@ -125,7 +125,7 @@ async function check_if_email_exist (email){
 async function login_user (email){
     email=email.toLowerCase();
     // console.log(email)
-    let existed_user_data = await userModel.find({email:email})
+    let existed_user_data = await userModel.findOne({email:email})
     return existed_user_data;
 
 

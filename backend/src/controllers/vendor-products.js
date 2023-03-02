@@ -9,8 +9,7 @@ let allProducts = async(req,res)=>{
 let addProduct = async(req,res)=>{
     
     let check = await productModel.find({title:req.body.Title_Product});
-    console.log(check)
-    if(check){
+    if(check.length==0){
         //for multer
         let pathLink = "http://localhost:5000/"
         let arr=[];
@@ -48,4 +47,32 @@ let addProduct = async(req,res)=>{
     }    
 }
 
-module.exports = {allProducts, addProduct}
+
+///////////// Delete ////////////
+var deleteProductController = async (req, res) =>
+{
+     console.log(req.params.id);
+     var result = await userService.removeUserDBService(req.params.id);
+     if (result) {
+        res.send({ "status": true, "message": "Product Deleted"} );
+     } else {
+         res.send({ "status": false, "message": "Product Deleted failed" });
+     }
+}
+
+
+//////////// Edit /////////////////
+var updateProductController = async (req, res) =>
+{
+    console.log(req.params.id);
+    console.log(req.body);
+    
+    var result = await userService.updateUserDBService(req.params.id,req.body);
+ 
+     if (result) {
+        res.send({ "status": true, "message": "User Updateeeedddddd"} );
+     } else {
+         res.send({ "status": false, "message": "User Updateeeedddddd Faileddddddd" });
+     }
+}
+module.exports = {allProducts, addProduct, deleteProductController, updateProductController}
