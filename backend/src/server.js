@@ -2,7 +2,7 @@ const dotenv = require('dotenv');
 const express = require('express');
 const cors = require('cors');
 const searchRouter = require('./router/searchRoute');
-
+var slugify = require('slugify')
 const vendorRouter = require('./router/vendor-product.router');
 const categoryRouter=require('./router/categoryRoute')
 const subCategoryRouter=require('./router/subCategoryRoute')

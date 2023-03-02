@@ -3,7 +3,7 @@ const Router = express.Router;
 const asyncHandler = require('express-async-handler');
 const expressAsyncHandler = asyncHandler.expressAsyncHandler
 const categoryController = require('../controllers/category')
-
+const mongoTypes = require('mongoose').Types;
 const multer = require('multer')
 const storage = multer.diskStorage({
     destination: function(req, file, cb){
@@ -13,7 +13,15 @@ const storage = multer.diskStorage({
         cb(null,Date.now()+file.originalname);
     }
 })
-const upload = multer({storage: storage})
+const multerFilter = function (req, file, cb) {
+    if (file.mimetype.split("/")[0] == "image") {
+        cb(null, true)
+    }
+    else {
+        cb(new Error("Not image"), false)
+    }
+}
+const upload = multer({storage: storage, fileFilter: multerFilter})
 
 const router = Router();
 router.get("/", categoryController.getCategories)
