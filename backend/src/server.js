@@ -1,10 +1,10 @@
 const dotenv = require('dotenv');
 const express = require('express');
 const cors = require('cors');
-const vendorRouter = require('./router/vendor-product.router');
+const vendorRoute = require('./router/vendor-product.router');
 const dbConnect = require('./config/database.config')
 const userRoute = require("./router/userRoute"); 
-
+const cartRoute = require('./router/cartRoute')
 const app = express();
 dotenv.config();
 
@@ -27,9 +27,9 @@ app.use(cors({
 
 ///////////////////// routes ////////////////////////////
 
-app.use("/vendor",vendorRouter)
+app.use("/vendor",vendorRoute)
 app.use("/users",userRoute)
-
+app.use("/cart",cartRoute)
 //////////////////////// port /////////////////////////
 
 app.listen(5000,()=>{

@@ -9,8 +9,7 @@ let allProducts = async(req,res)=>{
 let addProduct = async(req,res)=>{
     
     let check = await productModel.find({title:req.body.Title_Product});
-    console.log(check)
-    if(check){
+    if(check.length==0){
         //for multer
         let pathLink = "http://localhost:5000/"
         let arr=[];
@@ -48,4 +47,5 @@ let addProduct = async(req,res)=>{
     }    
 }
 
+////////////// check if product already exists function //////////
 module.exports = {allProducts, addProduct}

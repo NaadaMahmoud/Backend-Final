@@ -9,6 +9,7 @@ const bcrypt=require("bcryptjs")
 const userModel = require("../models/usersModel.js")
 let secret = fs.readFileSync('secret.key')
 
+const {verifyToken} = require('../shared/functions')
 
 //************************ Update ************************
 
@@ -144,13 +145,13 @@ route.post("/login",async function( req,res){
         const isValidPassword = await bcrypt.compare(req.body.password, user.password);
             if (isValidPassword) {
                 jwt.sign({data_of_login_user},secret,(err,token)=>{
-      
+                    console.log(data_of_login_user)
                     res.json({
                         message:"Login Successfully",
                         status:200,
                         data:user,
                         token:token,
-                        userType:data_of_login_user[0].userType
+                        userType:data_of_login_user.userType
                     })
             })
             }
@@ -170,20 +171,20 @@ route.post("/login",async function( req,res){
 
 //************************ verifyToken ************************
 
-function verifyToken (req,res,next){
-    const bearerHeader=req.headers['authorization']
-    // console.log(bearerHeader);
-    if(typeof bearerHeader!== "undefined"){
-        const bearer=bearerHeader.split(' ')
-        const token=bearer[1];
-        req.token=token
-        next()
-    }
-    else{
-        console.log("in verifyToken")
-        res.status(403).send("Error")
-    }
-}
+// function verifyToken (req,res,next){
+//     const bearerHeader=req.headers['authorization']
+//     // console.log(bearerHeader);
+//     if(typeof bearerHeader!== "undefined"){
+//         const bearer=bearerHeader.split(' ')
+//         const token=bearer[1];
+//         req.token=token
+//         next()
+//     }
+//     else{
+//         console.log("in verifyToken")
+//         res.status(403).send("Error")
+//     }
+// }
 
 
 
