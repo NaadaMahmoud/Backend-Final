@@ -7,8 +7,16 @@ exports.createSubCategory=asyncHandler(async(req,res)=>{
     const categoryname=req.body.categoryname
     const category=await CategoryModel.find({name:categoryname})
     const catid= category[0]._id
-    const image=req.file.path
+    const image=  "http://localhost:5000"+req.file.path.replace('\images','')
     const subCategory=await subCategoryModel.create({name:name,category:catid,image:image}).populate({path:'category',select:'name -_id'})
+    res.status(201).json({data:subCategory})
+})
+exports.createSubCategorybyId=asyncHandler(async(req,res)=>{
+    const name=req.body.name
+    const category=req.params.id
+    console.log(category)
+    const image=  "http://localhost:5000"+req.file.path.replace('\images','')
+    const subCategory=await subCategoryModel.create({name:name,category:category,image:image})
     res.status(201).json({data:subCategory})
 })
 exports.getSubCategories= asyncHandler(async(req,res)=>{
@@ -29,8 +37,8 @@ exports.getSubCategoryById=asyncHandler( async(req,res)=>{
 exports.updateSubCategory= asyncHandler(async(req,res)=>{
     const {id}=req.params
     const {name,category}=req.body
-    const file=req.body.file
-    const subCategory=await subCategoryModel.findOneAndUpdate({_id:id},{name:name},{category:category},{image:file},{new:true})
+    const image=  "http://localhost:5000"+req.file.path.replace('\images','')
+    const subCategory=await subCategoryModel.findOneAndUpdate({_id:id},{name:name},{category:category},{image:image},{new:true})
     if(!subCategory){
         res.status(404).json({msg:`No subcategory found with id ${id}`})
     }

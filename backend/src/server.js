@@ -3,7 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const searchRouter = require('./router/searchRoute');
 
-const vendorRoute = require('./router/vendor-product.router');
+const vendorRouter = require('./router/vendor-product.router');
 const categoryRouter=require('./router/categoryRoute')
 const subCategoryRouter=require('./router/subCategoryRoute')
 const dbConnect = require('./config/database.config')
