@@ -20,15 +20,13 @@ let userSchema=mongoose.Schema({
     // zip:Number,
     taxNumber:Number,
     cart:{type:Array,required:true},
+
     order:{
-        product: mongoose.Types.ObjectId,
-        ref: "product",
+        // product: mongoose.Types.ObjectId,
+        // ref: "products",
+        product: { type: Array, required: true },
         address:
-        {
-            blockNumber: {
-                type: Number,
-                default: 0,
-            },
+        { 
             st: {
                 type: String,
                 default: "",
@@ -37,15 +35,22 @@ let userSchema=mongoose.Schema({
                 type: String,
                 default: "",
             },
-            area: {
+            Country: {
                 type: String,
                 default: "",
             },
+            Postcode: {
+                type: Number,
+                default: 0,
+            },
         },
-        time: {
-            type: Date,
-            default: Date.now,
-            required: true,
+        notes: {
+            type: String,
+            default: '',
+        },
+        Total_price: {
+            type: Number,
+            default: '',
         },
     }
     

@@ -39,7 +39,8 @@ app.use("/categories",categoryRouter)
 app.use("/subcategories",subCategoryRouter)
 app.use("/search",searchRouter)
 app.use("/users",userRoute)
-app.use("/cart",cartRoute)
+app.use("/cart", cartRoute)
+app.use("/checkout", userRoute)
 //////////////////////// port /////////////////////////
 
 app.listen(5000,()=>{
