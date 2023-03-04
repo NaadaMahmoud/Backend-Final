@@ -6,9 +6,6 @@ const searchRouter = require('./router/searchRoute');
 const customOrderRouter= require('./router/customOrderRoute');
 
 
-
-const searchRouter = require('./router/searchRoute');
-
 const vendorRouter = require('./router/vendor-product.router');
 const categoryRouter=require('./router/categoryRoute')
 const subCategoryRouter=require('./router/subCategoryRoute')
