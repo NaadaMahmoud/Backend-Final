@@ -17,6 +17,19 @@ const product_schema = new Schema(
         subcategory: {type: String, required:true},//ref
         vendorID:{type:String,required:true},
     },{
+        category:{
+            type:mongoose.Schema.ObjectId,
+            ref:'Category',
+            required:[true,'Subcategory must belong to main category']
+        },
+        subcategory:{
+            type:mongoose.Schema.ObjectId,
+            ref:'SubCategory',
+            required:[true,'Subcategory must belong to main category']
+        },
+        vendorID:{type:String,default:"vID"},//ref
+    },
+    {
         toJSON:{
             virtuals:true
         },

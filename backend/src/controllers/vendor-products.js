@@ -3,6 +3,8 @@ const jwt = require('jsonwebtoken');
 const fs=require("fs");
 let secret = fs.readFileSync('secret.key')
 
+const  CategoryModel=require('../models/category')
+const subCategoryModel=require('../models/subCategory')
 ////////// All products (for Market) ////////////
 let allProducts = async(req,res)=>{
     const products = await productModel.find();
@@ -33,7 +35,15 @@ let addProduct = async(req,res)=>{
                     width : req.body.DimensionsW,
                     height : req.body.DimensionsH 
                 }
-                let product = new productModel({
+                console.log(req.body.Main_Category)
+        const categoryname=req.body.Main_Category
+    const category=await CategoryModel.find({name:categoryname})
+   console.log(category)
+   const  catid=category[0]._id
+    const subname=req.body.Sub_Category
+    const subCategories=await subCategoryModel.find({name:subname})
+    const subcatid= subCategories[0]._id
+        let product = new productModel({
                     title: req.body.Title_Product,
                     vendorID:userId,
                     images:arr,
@@ -41,13 +51,13 @@ let addProduct = async(req,res)=>{
                     price:req.body.Price,
                     dimensions:dim,
                     matrial:req.body.Material,
-                    category:req.body.Main_Category,
-                    subcategory:req.body.Sub_Category,
+                    category:catid,
+                    subcategory:subcatid,
                     colors:req.body.Color_Product,
                     overview:req.body.Description
                 })
                 try{
-                    product = await product.save();
+                    product = await product.save()
                     console.log("product saved")
                 }catch(e){
                     console.log(e)
@@ -81,5 +91,32 @@ let getById = async(req,res)=>{
     })
 }
 
-////////////// check if product already exists function //////////
-module.exports = {allProducts, addProduct, getById}
+
+///////////// Delete ////////////
+var deleteProductController = async (req, res) =>
+{
+     console.log(req.params.id);
+     var result = await userService.removeUserDBService(req.params.id);
+     if (result) {
+        res.send({ "status": true, "message": "Product Deleted"} );
+     } else {
+         res.send({ "status": false, "message": "Product Deleted failed" });
+     }
+}
+
+
+//////////// Edit /////////////////
+var updateProductController = async (req, res) =>
+{
+    console.log(req.params.id);
+    console.log(req.body);
+    
+    var result = await userService.updateUserDBService(req.params.id,req.body);
+ 
+     if (result) {
+        res.send({ "status": true, "message": "User Updateeeedddddd"} );
+     } else {
+         res.send({ "status": false, "message": "User Updateeeedddddd Faileddddddd" });
+     }
+}
+module.exports = {allProducts, addProduct, getById, deleteProductController, updateProductController}

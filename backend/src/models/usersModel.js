@@ -19,8 +19,43 @@ let userSchema=mongoose.Schema({
     // state:String,
     // zip:Number,
     taxNumber:Number,
-    cart:{type:Array}
 
+    cart:{type:Array},
+    order:{
+
+
+        type: mongoose.Types.ObjectId,
+
+        // product: mongoose.Types.ObjectId,
+        // ref: "product",
+        product: { type: Array, required: true },
+
+        address:
+        {
+            blockNumber: {
+                type: Number,
+                default: 0,
+            },
+            st: {
+                type: String,
+                default: "",
+            },
+            city: {
+                type: String,
+                default: "",
+            },
+            area: {
+                type: String,
+                default: "",
+            },
+        },
+        time: {
+            type: Date,
+            default: Date.now,
+            required: true,
+        },
+    }
+    
     // taxNumber:Number,
 
 });
