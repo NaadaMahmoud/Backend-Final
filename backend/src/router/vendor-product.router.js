@@ -16,6 +16,7 @@ const storage = multer.diskStorage({
         cb(null,Date.now()+file.originalname);
     }
 })
+ 
 const multerFilter = function (req, file, cb) {
     if (file.mimetype.split("/")[0] == "image") {
         cb(null, true)
@@ -45,7 +46,7 @@ router.post("/products/add", upload.array("image_Product",100), productControlle
 router.delete("/products/delete/:id", (req, res) => {
     const { id } = req.params;
     console.log(req.params)
-    productModel.deleteOne({ _id: id })
+    productModel.findByIdAndDelete( id)
       .then(() => {
         console.log("Deleted product successfully!");
       })
@@ -53,48 +54,58 @@ router.delete("/products/delete/:id", (req, res) => {
   })
 
 
-  ///////////// Edit Product /////////////
-  
-  router.get("products/edit/:id", async (req, res) => {
-    const { id } = req.params;
 
-    const getData = await productModel.findOne({ _id: id });
-  })
-//////////////// edit details /////////
-router.post("/edit/:id", (req, res) => {
-    const { id } = req.params;
-    const { title, images, quantity, price, dimensions, matrial, category, subcategory, colors, overview} = req.body;
 
-    productModel.updateOne({ _id: id }, { title, images, quantity, price, dimensions, matrial, category, subcategory, colors, overview})
-      .then(() => {
-        console.log("successfully! updated the product!");
+
+
+
+
+//////////////////////////////////////////
+
+
+// update Product 
+router.put("/products/edit/:id", upload.array("image_Product",100), (req,res) => {
+
+  let pathLink = "http://localhost:5000/"
+        let arr=[];
+        for(const a of req.files){
+            arr.push(pathLink+a.path.split('\\')[1]);
+            // console.log(a.path.split('\\')[1]);
+        }
+
+  let productModel = {
+      title:  req.body.title,
+      images: arr,
+      quantity: req.body.quantity,
+      price: req.body.price,
+      dimensions : req.body.dimensions,
+      matrial :   req.body.matrial,
+      colors :   req.body.colors,
+      overview :   req.body.overview,
+      category :   req.body.category,
+      subcategory :   req.body.subcategory,
+  }
+
+
+  if(mongoTypes.ObjectId.isValid(req.params.id)) {
+    productModel.findByIdAndUpdate(req.params.id ,{$set : productModel},{new : true}, (err,doc) => {
+          if(err) {
+              console.log('Internal error',err);
+              res.status(400).send('Internal error',err);
+          } else {
+              res.send(doc);
+          }
       })
-      .catch((err) => console.log(err));
-  });
+  } else {
+      res.status(400).send('No record found with id :',id);
+  }
+})
 
 
 
-//get Product by id
 
 
-///////////////  Delete Product by id /////////////
-
-// router.delete('/:id',(req,res) => {
-//   if(mongoTypes.ObjectId.isValid(req.params.id)) {
-//     productModel .findByIdAndRemove(req.params.id , (err,doc) => {
-//           if(err) {
-//               console.log('Internal error',err);
-//               res.status(400).send('Internal error',err);
-//           } else {
-//               res.send(doc);
-//           }
-//       })
-//   } else {
-//       res.status(400).send('No record found with id :',id);
-//   }
-// })
-
-//update Product 
+//////////////////update Product ///////////////
 // router.put('/:id',(req,res) => {
 
 //   let productModel = {
@@ -146,38 +157,6 @@ router.post("/edit/:id", (req, res) => {
 
 
 
-// /////////////////////////////////////////////////////////////
-////////////// Delete Product ////////////
-
-// router.delete("/products/delete/:id", (req, res) => {
-//     const { id } = req.params;
-//     console.log(req.params)
-//     productModel.deleteOne({ _id: id })
-//       .then(() => {
-//         console.log("Deleted product successfully!");
-//       })
-//       .catch((err) => console.log(err));
-//   })
-
-
-  ///////////// Edit Product /////////////
-  
-  // router.get("/edit/:id", async (req, res) => {
-  //   const { id } = req.params;
-
-  //   const getData = await productModel.findOne({ _id: id });
-  // })
- //edit details//
-  // .post("/edit/:id", (req, res) => {
-  //   const { id } = req.params;
-  //   const { title, images, quantity, price, dimensions, matrial, category, subcategory, colors, overview} = req.body;
-
-  //   productModel.updateOne({ _id: id }, { title, images, quantity, price, dimensions, matrial, category, subcategory, colors, overview})
-  //     .then(() => {
-  //       console.log("successfully! updated the product!");
-  //     })
-  //     .catch((err) => console.log(err));
-  // });
 
 
 module.exports=router;

@@ -24,7 +24,8 @@ const product_schema = new Schema(
             required:[true,'Subcategory must belong to main category']
         },
         vendorID:{type:String,default:"vID"},//ref
-    },{
+    },
+    {
         toJSON:{
             virtuals:true
         },
