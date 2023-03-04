@@ -1,4 +1,6 @@
 const productModel = require("../models/vendor-products");
+const  CategoryModel=require('../models/category')
+const subCategoryModel=require('../models/subCategory')
 ////////// All products ////////////
 let allProducts = async(req,res)=>{
     const products = await productModel.find();
@@ -23,6 +25,14 @@ let addProduct = async(req,res)=>{
             width : req.body.DimensionsW,
             height : req.body.DimensionsH 
         }
+        console.log(req.body.Main_Category)
+        const categoryname=req.body.Main_Category
+    const category=await CategoryModel.find({name:categoryname})
+   console.log(category)
+   const  catid=category[0]._id
+    const subname=req.body.Sub_Category
+    const subCategories=await subCategoryModel.find({name:subname})
+    const subcatid= subCategories[0]._id
         let product = new productModel({
             title: req.body.Title_Product,
             images:arr,
@@ -30,13 +40,13 @@ let addProduct = async(req,res)=>{
             price:req.body.Price,
             dimensions:dim,
             matrial:req.body.Material,
-            category:req.body.Main_Category,
-            subcategory:req.body.Sub_Category,
+            category:catid,
+            subcategory:subcatid,
             colors:req.body.Color_Product,
             overview:req.body.Description
         })
         try{
-            product = await product.save();
+            product = await product.save()
             console.log("product saved")
         }catch(e){
             console.log(e)

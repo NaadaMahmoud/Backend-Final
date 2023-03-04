@@ -13,8 +13,16 @@ const product_schema = new Schema(
         colors: {type: Array, required:true},
         rate: {type: Number, default:1},
         overview: {type: String, required:true},
-        category: {type: String, required:true},//ref
-        subcategory: {type: String, required:true},//ref
+        category:{
+            type:mongoose.Schema.ObjectId,
+            ref:'Category',
+            required:[true,'Subcategory must belong to main category']
+        },
+        subcategory:{
+            type:mongoose.Schema.ObjectId,
+            ref:'SubCategory',
+            required:[true,'Subcategory must belong to main category']
+        },
         vendorID:{type:String,default:"vID"},//ref
     },{
         toJSON:{
