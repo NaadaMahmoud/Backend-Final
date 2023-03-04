@@ -4,6 +4,7 @@ const Router = express.Router;
 const productController = require('../controllers/vendor-products')
 const router = Router();
 const mongoTypes = require('mongoose').Types;
+const {verifyToken} = require('../shared/functions')
 
 /////////////// multer ////////////////////
 
@@ -16,6 +17,7 @@ const storage = multer.diskStorage({
         cb(null,Date.now()+file.originalname);
     }
 })
+ 
 const multerFilter = function (req, file, cb) {
     if (file.mimetype.split("/")[0] == "image") {
         cb(null, true)
@@ -37,7 +39,11 @@ router.get("/products", productController.allProducts);
 
 //////////// Add product ///////////////
 
-router.post("/products/add", upload.array("image_Product",100), productController.addProduct)
+router.post("/products/add", verifyToken, upload.array("image_Product",100), productController.addProduct)
+
+//////////// Get Vendor products ///////////////
+
+router.get("/products/byId", verifyToken, upload.array("image_Product",100), productController.getById)
 
 
 ////////////// Delete Product ////////////
@@ -45,7 +51,7 @@ router.post("/products/add", upload.array("image_Product",100), productControlle
 router.delete("/products/delete/:id", (req, res) => {
     const { id } = req.params;
     console.log(req.params)
-    productModel.deleteOne({ _id: id })
+    productModel.findByIdAndDelete( id)
       .then(() => {
         console.log("Deleted product successfully!");
       })
@@ -53,41 +59,99 @@ router.delete("/products/delete/:id", (req, res) => {
   })
 
 
-  ///////////// Edit Product /////////////
-  
-  router.get("products/edit/:id", async (req, res) => {
-    const { id } = req.params;
 
-    const getData = await productModel.findOne({ _id: id });
-  })
-//////////////// edit details /////////
-router.post("/edit/:id", (req, res) => {
-    const { id } = req.params;
-    const { title, images, quantity, price, dimensions, matrial, category, subcategory, colors, overview} = req.body;
 
-    productModel.updateOne({ _id: id }, { title, images, quantity, price, dimensions, matrial, category, subcategory, colors, overview})
-      .then(() => {
-        console.log("successfully! updated the product!");
+
+
+
+
+//////////////////////////////////////////
+
+
+// update Product 
+router.put("/products/edit/:id", upload.array("image_Product",100), (req,res) => {
+
+  let pathLink = "http://localhost:5000/"
+        let arr=[];
+        for(const a of req.files){
+            arr.push(pathLink+a.path.split('\\')[1]);
+            // console.log(a.path.split('\\')[1]);
+        }
+
+  let productModel = {
+      title:  req.body.title,
+      images: arr,
+      quantity: req.body.quantity,
+      price: req.body.price,
+      dimensions : req.body.dimensions,
+      matrial :   req.body.matrial,
+      colors :   req.body.colors,
+      overview :   req.body.overview,
+      category :   req.body.category,
+      subcategory :   req.body.subcategory,
+  }
+
+
+  if(mongoTypes.ObjectId.isValid(req.params.id)) {
+    productModel.findByIdAndUpdate(req.params.id ,{$set : productModel},{new : true}, (err,doc) => {
+          if(err) {
+              console.log('Internal error',err);
+              res.status(400).send('Internal error',err);
+          } else {
+              res.send(doc);
+          }
       })
-      .catch((err) => console.log(err));
-  });
+  } else {
+      res.status(400).send('No record found with id :',id);
+  }
+})
 
 
 
-//////////////// product details /////////
+//get Product by id
 
 router.get("/products/byid/:id", async (req, res) => {
   const { id } = req.params;
 
-  const getData = await productModel.findOne({ _id: id });
-  try {
-    res.send(getData)
-  } catch (err) {
-    console.log("error finding user's cart")
-    console.log(err)
-  }
-  
-})
+//////////////////update Product ///////////////
+// router.put('/:id',(req,res) => {
+
+//   let productModel = {
+//       title:  req.body.title,
+//       images: req.body.images,
+//       quantity: req.body.quantity,
+//       price: req.body.price,
+//       dimensions : req.body.dimensions,
+//       matrial :   req.body.matrial,
+//       colors :   req.body.colors,
+//       overview :   req.body.overview,
+//       category :   req.body.category,
+//       subcategory :   req.body.subcategory,
+//   }
+
+
+//   if(mongoTypes.ObjectId.isValid(req.params.id)) {
+//     productModel.findByIdAndUpdate(req.params.id ,{$set : productModel},{new : true}, (err,doc) => {
+//           if(err) {
+//               console.log('Internal error',err);
+//               res.status(400).send('Internal error',err);
+//           } else {
+//               res.send(doc);
+//           }
+//       })
+//   } else {
+//       res.status(400).send('No record found with id :',id);
+//   }
+// })
+
+
+
+
+
+
+
+
+
 
 
 

@@ -19,12 +19,13 @@ let userSchema=mongoose.Schema({
     // state:String,
     // zip:Number,
     taxNumber:Number,
+
+    cart:{type:Array},
     cart:{type:Array,required:true},
 
     order:{
-        // product: mongoose.Types.ObjectId,
-        // ref: "products",
-        product: { type: Array, required: true },
+        product: mongoose.Types.ObjectId,
+        ref: "product",
         address:
         { 
             st: {
