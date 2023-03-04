@@ -19,7 +19,7 @@ let userSchema=mongoose.Schema({
     // state:String,
     // zip:Number,
     taxNumber:Number,
-    cart:{type:Array,required:true}
+    cart:{type:Array}
 
     // taxNumber:Number,
 

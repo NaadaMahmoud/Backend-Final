@@ -15,7 +15,7 @@ const product_schema = new Schema(
         overview: {type: String, required:true},
         category: {type: String, required:true},//ref
         subcategory: {type: String, required:true},//ref
-        vendorID:{type:String,default:"vID"},//ref
+        vendorID:{type:String,required:true},
     },{
         toJSON:{
             virtuals:true
