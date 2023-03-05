@@ -13,6 +13,21 @@ const products=await product.find({category:id})
 console.log(products)
     res.send(products)
 })
+exports.getProductsbyColor= asyncHandler(async(req,res)=>{
+  
+    const color=req.params.color
+const des='#'+color
+const products=await product.find({colors:des})
+//  console.log(products)
+    res.send(products)
+})
+exports.getAllColors= asyncHandler(async(req,res)=>{
+  
+const colors=await product.find({}, {colors:1, _id:0})
+//  console.log(products)
+    res.send(colors)
+})
+
 
 exports.getLowest= asyncHandler(async(req,res)=>{
     
@@ -20,3 +35,10 @@ const products=await product.find({}).sort({price: 1}).limit(1);
 console.log(products)
     res.send(products)
 })
+
+exports.getAll= asyncHandler(async(req,res)=>{
+    
+    const products=await product.find({})
+    console.log(products)
+        res.send(products)
+    })
