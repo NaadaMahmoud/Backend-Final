@@ -7,7 +7,7 @@ router.route('/all').get(getAll)
 router.route('/n/:color').get(getProductsbyColor)
 router.route('/allcolors').get(getAllColors)
 router.route('/range').get(getbetweenvalues)
-router.route('/vendor').get(getbyvendors)
+//router.route('/vendor').get(getbyvendors)
 
 router.route('/lowest').get(getLowest)
 

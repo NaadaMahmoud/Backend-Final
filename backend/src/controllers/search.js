@@ -36,12 +36,13 @@ const products=await product.find({}).sort({price: 1}).limit(1);
 console.log(products)
     res.send(products)
 })
-exports.getbyvendors= asyncHandler(async(req,res)=>{
+
+// exports.getbyvendors= asyncHandler(async(req,res)=>{
     
-    const vendors=await product.find({}, {vendorID:1})
-    const names=await user.FIND
-        res.send(names)
-    })
+//     const vendors=await user.find({userType:"vendor"})
+//     console.log(vendors)
+//         res.send(vendors)
+//     })
 exports.getbetweenvalues= asyncHandler(async(req,res)=>{
     
     const products=await product.find({ price: { $gt: 15, $lt: 100 }})
