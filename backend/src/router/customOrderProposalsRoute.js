@@ -1,6 +1,11 @@
 const customOrdersProposalscontroller=require("../controllers/customOrderProposalsController.js")
+const customOrderModel=require("../models/customOrder.js")
 const express=require("express")
 const route=express.Router()
+const fs=require("fs");
+const {verifyToken} = require('../shared/functions')
+let secret = fs.readFileSync('secret.key')
+const jwt=require('jsonwebtoken')
 
 
 
@@ -20,17 +25,36 @@ route.post("/get_proposals",async function( req,res){
     })
 
 
-route.post("/add_proposal",async function( req,res){
-        console.log("here in add proposal route");
-        let new_proposal_that_added = await customOrdersProposalscontroller.post_new_proposal (req.body)
-        res.json({
-            message:"Added new proposal succsessfulle",
-            status:200,
-            data:new_proposal_that_added
-        })
-       
+route.post("/add_proposal",verifyToken,
+async function( req,res){
+       console.log("sssssssssssssssssssssssssssssssssssssssss");
+       console.log("req.body.id = ", req.body);
+    jwt.verify(req.token,secret,async (err,data)=>{
+       console.log("req.body.id = ", data.id);
+        if(err){
+            res.send(403)
+        }
+        else{
+            // console.log("data = ",data);
+            // console.log("add proposal route");
+            let new_proposal_that_added = await customOrdersProposalscontroller.post_new_proposal (req.body.id,req.body)
+            // console.log("new_proposal_that_added=",new_proposal_that_added);
+            if(new_proposal_that_added.message=="Done"){
+            res.json({
+                    messege:"Done",
+                    status:200
+                })
+            }else{
+                res.json({
+                    messege:"Failed (NOT Done)",
+                    status:100
+                })
+            }
         
-    })
+        }})
+    }
+    
+    )
 
 
 

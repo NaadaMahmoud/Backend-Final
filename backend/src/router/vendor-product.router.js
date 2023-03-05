@@ -4,6 +4,7 @@ const Router = express.Router;
 const productController = require('../controllers/vendor-products')
 const router = Router();
 const mongoTypes = require('mongoose').Types;
+const {verifyToken} = require('../shared/functions')
 
 /////////////// multer ////////////////////
 
@@ -38,7 +39,11 @@ router.get("/products", productController.allProducts);
 
 //////////// Add product ///////////////
 
-router.post("/products/add", upload.array("image_Product",100), productController.addProduct)
+router.post("/products/add", verifyToken, upload.array("image_Product",100), productController.addProduct)
+
+//////////// Get Vendor products ///////////////
+
+router.get("/products/byId", verifyToken, upload.array("image_Product",100), productController.getById)
 
 
 ////////////// Delete Product ////////////
@@ -103,8 +108,11 @@ router.put("/products/edit/:id", upload.array("image_Product",100), (req,res) =>
 
 
 
+//get Product by id
 
-
+router.get("/products/byid/:id", async (req, res) => {
+  const { id } = req.params;
+})
 //////////////////update Product ///////////////
 // router.put('/:id',(req,res) => {
 
@@ -148,9 +156,7 @@ router.put("/products/edit/:id", upload.array("image_Product",100), (req,res) =>
 
 
 
-
-
-
+  
 
 
 

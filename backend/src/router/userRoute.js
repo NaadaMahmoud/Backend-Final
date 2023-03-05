@@ -197,20 +197,12 @@ route.post("/deleteProduct/:id", async function (req, res) {
 
 
 
-// router.route("/find").get(function (req, res) {
-//     football.find(
-//         { "awards.award": "Golden Boot", "awards.numberOfTimes": 6 },
-//         function (err, result) {
-//             if (err) {
-//                 res.send(err);
-//             } else {
-//                 res.json(result);
-//             }
-//         }
-//     );
-// });
+// ******************** CHECKOUT *************************
 
-
+route.get("/", async function (req, res) {
+    let checkout = await userController.get_All_cart_Product()
+    res.send(checkout)
+})
 
 
 module.exports=route

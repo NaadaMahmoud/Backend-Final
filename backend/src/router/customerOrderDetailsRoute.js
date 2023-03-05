@@ -1,4 +1,6 @@
 const customnOrderDetailsController=require("../controllers/customerOrderDetailsController.js")
+const categoryModel=require("../models/category.js")
+const subCategoryModel=require("../models/subCategory.js")
 const express=require("express")
 const route=express.Router()
 // const path=require("path")
@@ -21,13 +23,26 @@ const route=express.Router()
 
 route.get("/customOrderDetails/:id",async function (req,res){
 
-    console.log("CustomOrderDetails  ID = ", req.params.id)
-    let returnedCustomOrderDetails = await customnOrderDetailsController.getCustomOrderDetails (req.params.id)
-    console.log(returnedCustomOrderDetails);
+    // console.log("CustomOrderDetails  ID = ", req.params.id)
+    let returnedCustomOrderDetails = await customnOrderDetailsController.getCustomOrderDetails_by_id (req.params.id)
+    let category = await categoryModel.findById (returnedCustomOrderDetails.category)
+    // console.log(category);
+    
+    // returnedCustomOrderDetails.category=category.name
+    // console.log(returnedCustomOrderDetails);
+
+
+    let subCategory = await subCategoryModel.findById (returnedCustomOrderDetails.subcategory)
+    // console.log(subCategory);
+    // returnedCustomOrderDetails.subcategory=subCategory.name
+    // console.log(returnedCustomOrderDetails);
     res.json({
         messege:"Data reterned successfully",
         status:200,
-        data:returnedCustomOrderDetails,
+        data:{
+            ...returnedCustomOrderDetails,
+            category:category,
+            subCategory:subCategory},
     })
 
 
