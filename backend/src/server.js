@@ -7,7 +7,7 @@ const customOrderRouter= require('./router/customOrderRoute');
 
 
 
-// const searchRouter = require('./router/searchRoute');
+ const searchRouter = require('./router/searchRoute');
 
 const vendorRouter = require('./router/vendor-product.router');
 const categoryRouter=require('./router/categoryRoute')
@@ -53,6 +53,8 @@ app.use(cors({
 
 app.use("/vendor",vendorRouter)
 app.use("/categories",categoryRouter)
+app.use("/custom",customOrderRouter)
+
 app.use("/subcategories",subCategoryRouter)
 app.use("/search",searchRouter)
 app.use("/users",userRoute)
