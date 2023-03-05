@@ -21,9 +21,13 @@ let userSchema=mongoose.Schema({
     taxNumber:Number,
     cart:{type:Array,required:true},
     order:{
+
+        type: mongoose.Types.ObjectId,
+
         // product: mongoose.Types.ObjectId,
         // ref: "product",
         product: { type: Array, required: true },
+
         address:
         {
             blockNumber: {

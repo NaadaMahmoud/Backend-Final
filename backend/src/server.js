@@ -2,8 +2,13 @@ const dotenv = require('dotenv');
 const express = require('express');
 const cors = require('cors');
 
+const searchRouter = require('./router/searchRoute');
+const customOrderRouter= require('./router/customOrderRoute');
+
+
 
 const searchRouter = require('./router/searchRoute');
+
 const vendorRouter = require('./router/vendor-product.router');
 const categoryRouter=require('./router/categoryRoute')
 const subCategoryRouter=require('./router/subCategoryRoute')
@@ -52,8 +57,12 @@ app.use("/subcategories",subCategoryRouter)
 app.use("/search",searchRouter)
 app.use("/users",userRoute)
 app.use("/cart",cartRoute)
+
+app.use("/custom",customOrderRouter)
+
 app.use("/proposal",customerOrderProposalsRoute)
 app.use("/getCustomOrder",customerOrderDetailsRoute)
+
 
 
 
