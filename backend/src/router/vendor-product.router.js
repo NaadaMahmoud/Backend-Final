@@ -108,8 +108,11 @@ router.put("/products/edit/:id", upload.array("image_Product",100), (req,res) =>
 
 
 
+//get Product by id
 
-
+router.get("/products/byid/:id", async (req, res) => {
+  const { id } = req.params;
+})
 //////////////////update Product ///////////////
 // router.put('/:id',(req,res) => {
 
@@ -153,9 +156,7 @@ router.put("/products/edit/:id", upload.array("image_Product",100), (req,res) =>
 
 
 
-
-
-
+  
 
 
 

@@ -52,7 +52,7 @@ const CustomOrderSchema=new mongoose.Schema({
         default:false
     },
     proposals:{
-        type:Array
+        type:[]
     },
     duedate:{
         type:Date,

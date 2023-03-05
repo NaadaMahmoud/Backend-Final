@@ -2,9 +2,12 @@ const dotenv = require('dotenv');
 const express = require('express');
 const cors = require('cors');
 
-const searchRouter = require('./router/searchRoute');
+
 const customOrderRouter= require('./router/customOrderRoute');
 
+
+
+ const searchRouter = require('./router/searchRoute');
 
 const vendorRouter = require('./router/vendor-product.router');
 const categoryRouter=require('./router/categoryRoute')
@@ -50,20 +53,17 @@ app.use(cors({
 
 app.use("/vendor",vendorRouter)
 app.use("/categories",categoryRouter)
+app.use('/customOrder',customerOrderDetailsRoute)
 app.use("/subcategories",subCategoryRouter)
 app.use("/search",searchRouter)
 app.use("/users",userRoute)
-app.use("/cart",cartRoute)
+app.use("/cart", cartRoute)
+app.use("/custom", customOrderRouter)
+app.use("/checkout", userRoute)
 
-app.use("/custom",customOrderRouter)
+app.use("/proposal", customerOrderProposalsRoute)
 
-app.use("/proposal",customerOrderProposalsRoute)
-app.use("/getCustomOrder",customerOrderDetailsRoute)
-
-app.use("/proposal", proposalRoute)
-
-
-
+// app.use("/proposal", proposalRoute)
 //////////////////////// port /////////////////////////
 
 app.listen(5000,()=>{

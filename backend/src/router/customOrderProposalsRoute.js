@@ -1,6 +1,11 @@
 const customOrdersProposalscontroller=require("../controllers/customOrderProposalsController.js")
+const customOrderModel=require("../models/customOrder.js")
 const express=require("express")
 const route=express.Router()
+const fs=require("fs");
+const {verifyToken} = require('../shared/functions')
+let secret = fs.readFileSync('secret.key')
+const jwt=require('jsonwebtoken')
 
 
 
@@ -20,19 +25,39 @@ route.post("/get_proposals",async function( req,res){
     })
 
 
-route.post("/add_proposal",async function( req,res){
-        console.log("here in add proposal route");
-        let new_proposal_that_added = await customOrdersProposalscontroller.post_new_proposal (req.body)
-        res.json({
-            message:"Added new proposal succsessfulle",
-            status:200,
-            data:new_proposal_that_added
-        })
-       
+route.post("/add_proposal",verifyToken,
+async function( req,res){
+       console.log("Here in Backend /add_proposal Router");
+    //    console.log("req.body.id = ", req.body);
+    jwt.verify(req.token,secret,async (err,data)=>{
+       console.log("data = ", data);
+        if(err){
+            res.send(403)
+        }
+        else{
+            console.log("vendor_data = ",data);
+            console.log("vendor_id = ",req.body.vendorId);
+            console.log("custom order id = ",req.body.id);
+            console.log("req.body = ",req.body);
+            // console.log("add proposal route");
+            let new_proposal_that_added = await customOrdersProposalscontroller.post_new_proposal (req.body.id,req.body)
+            // console.log("new_proposal_that_added=",new_proposal_that_added);
+            if(new_proposal_that_added.message=="Done"){
+            res.json({
+                    messege:"Done",
+                    status:200
+                })
+            }else{
+                res.json({
+                    messege:"Failed to post proposal",
+                    status:501
+                })
+            }
         
-    })
-
-
+        }})
+    }
+    
+    )
 
 
     module.exports=route
