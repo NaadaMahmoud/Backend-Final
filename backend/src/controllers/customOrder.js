@@ -9,10 +9,11 @@ let secret = fs.readFileSync('secret.key')
 
 exports.createCustomOrder=asyncHandler(async(req,res)=>{
     jwt.verify(req.token,secret,async (err,data)=>{
-    console.log(data. data_of_login_user._id)
+    console.log(data.data_of_login_user._id)
             let arr=[];
-
+          
         for(const a of req.files){
+            console.log("http://localhost:5000"+a.path.replace('images',''))
             arr.push("http://localhost:5000"+a.path.replace('images',''));
         
         }
@@ -36,8 +37,9 @@ exports.createCustomOrder=asyncHandler(async(req,res)=>{
             const description=req.body.description
             const quantity=req.body.quantity*1
             const duedate=req.body.duedate
-            const client=data. data_of_login_user._id
+            const client=data.data_of_login_user._id
     const images= arr
+    console.log(images)
     const customOrder=await CustomOrderModel.create({name:name,category:category,subcategory:subcategory,images:images,dimensions:dimensions,material:material,colors:colors,price:price,description:description,quantity:quantity,duedate:duedate,clientID:client})
     res.status(201).json({data:customOrder})
         }
