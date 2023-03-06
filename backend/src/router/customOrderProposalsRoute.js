@@ -27,15 +27,18 @@ route.post("/get_proposals",async function( req,res){
 
 route.post("/add_proposal",verifyToken,
 async function( req,res){
-       console.log("sssssssssssssssssssssssssssssssssssssssss");
-       console.log("req.body.id = ", req.body);
+       console.log("Here in Backend /add_proposal Router");
+    //    console.log("req.body.id = ", req.body);
     jwt.verify(req.token,secret,async (err,data)=>{
-       console.log("req.body.id = ", data.id);
+       console.log("data = ", data);
         if(err){
             res.send(403)
         }
         else{
-            // console.log("data = ",data);
+            console.log("vendor_data = ",data);
+            console.log("vendor_id = ",req.body.vendorId);
+            console.log("custom order id = ",req.body.id);
+            console.log("req.body = ",req.body);
             // console.log("add proposal route");
             let new_proposal_that_added = await customOrdersProposalscontroller.post_new_proposal (req.body.id,req.body)
             // console.log("new_proposal_that_added=",new_proposal_that_added);
@@ -46,8 +49,8 @@ async function( req,res){
                 })
             }else{
                 res.json({
-                    messege:"Failed (NOT Done)",
-                    status:100
+                    messege:"Failed to post proposal",
+                    status:501
                 })
             }
         
@@ -55,8 +58,6 @@ async function( req,res){
     }
     
     )
-
-
 
 
     module.exports=route

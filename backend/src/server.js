@@ -57,7 +57,11 @@ app.use("/subcategories",subCategoryRouter)
 app.use("/search",searchRouter)
 app.use("/users",userRoute)
 app.use("/cart", cartRoute)
+app.use("/customOrder", customerOrderDetailsRoute)
+app.use("/custom", customOrderRouter)
 app.use("/checkout", userRoute)
+
+app.use("/proposal", customerOrderProposalsRoute)
 //////////////////////// port /////////////////////////
 
 app.listen(5000,()=>{
