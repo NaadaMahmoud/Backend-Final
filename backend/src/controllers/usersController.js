@@ -145,11 +145,73 @@ async function register_new_user (user_data){
 }
 
 
-///cart delete one item
-async function cart_delet_one_Product (Id) {
-    let res = await userModel.deleteOne({ _id: Id })
-    return res;
+
+
+
+// ******************** CHECKOUT *************************
+
+// async function get_All_cart_Product(Id) {
+//     let res = await userModel.findOne({ _id: Id });
+//     let Totals=0;
+//     res.cart.map((item)=>{      
+//         Totals += item.price * item.quantity     
+//     })
+//     res.order.product = res.cart;
+//     res.cart=[];
+//     res.order.Total_price = Totals;
+//     res.save();
+//     return res;
+// }
+
+
+async function get_All_cart_Product() {async (req, res) => {
+    jwt.verify(req.token, secret, async (err, data) => {
+        console.log(data.data_of_login_user._id)
+        if (err) {
+            // law mafe4 token 
+            res.sendStatus(403)
+        }
+        else {
+            id = data.data_of_login_user._id
+            let res = await userModel.findOne({ _id: id });
+            let Totals = 0;
+            res.cart.map((item) => {
+                subTotal += item.price * item.quantity;
+                Totals += subTotal;
+            })
+            res.order.product = res.cart;
+            res.cart = [];
+            res.order.Total_price = Totals;
+            res.save();
+            return res.order;
+        }
+    })
 }
+} 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -165,7 +227,8 @@ module.exports={
     update_user_firstAndLastNames,
     update_user_state,
     update_user_city,
-    update_user_zip
+    update_user_zip,
+    get_All_cart_Product
 }
 
 

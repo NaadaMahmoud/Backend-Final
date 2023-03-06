@@ -13,6 +13,10 @@ const product_schema = new Schema(
         colors: {type: Array, required:true},
         rate: {type: Number, default:1},
         overview: {type: String, required:true},
+        category: {type: String, required:true},//ref
+        subcategory: {type: String, required:true},//ref
+        vendorID:{type:String,required:true},
+    },{
         category:{
             type:mongoose.Schema.ObjectId,
             ref:'Category',
