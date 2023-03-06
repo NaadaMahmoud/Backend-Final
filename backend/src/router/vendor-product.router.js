@@ -112,7 +112,7 @@ router.put("/products/edit/:id", upload.array("image_Product",100), (req,res) =>
 
 router.get("/products/byid/:id", async (req, res) => {
   const { id } = req.params;
-
+})
 //////////////////update Product ///////////////
 // router.put('/:id',(req,res) => {
 
