@@ -53,13 +53,11 @@ app.use(cors({
 
 app.use("/vendor",vendorRouter)
 app.use("/categories",categoryRouter)
-app.use("/custom",customOrderRouter)
 app.use('/customOrder',customerOrderDetailsRoute)
 app.use("/subcategories",subCategoryRouter)
 app.use("/search",searchRouter)
 app.use("/users",userRoute)
 app.use("/cart", cartRoute)
-app.use("/customOrder", customerOrderDetailsRoute)
 app.use("/custom", customOrderRouter)
 app.use("/checkout", userRoute)
 
