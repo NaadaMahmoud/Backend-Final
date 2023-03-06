@@ -7,7 +7,7 @@ const customOrderRouter= require('./router/customOrderRoute');
 
 
 
-const searchRouter = require('./router/searchRoute');
+// const searchRouter = require('./router/searchRoute');
 
 const vendorRouter = require('./router/vendor-product.router');
 const categoryRouter=require('./router/categoryRoute')
