@@ -24,8 +24,7 @@ let userSchema=mongoose.Schema({
     cart:{type:Array,required:true},
 
     order:{
-        product: mongoose.Types.ObjectId,
-        ref: "product",
+        product:{type:Array},
         address:
         { 
             st: {
