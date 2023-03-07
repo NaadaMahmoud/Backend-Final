@@ -117,4 +117,13 @@ var updateProductController = async (req, res) => {
         res.send({ "status": false, "message": "User Updateeeedddddd Faileddddddd" });
     }
 }
-module.exports = { allProducts, addProduct, getById, deleteProductController, updateProductController }
+
+// ******************** get Product by id *************************
+
+async function get_Product_by_id(id) {
+    data = await productModel.findOne({ _id: id })
+    return data;
+
+}
+
+module.exports = { allProducts, addProduct, getById, deleteProductController, updateProductController, get_Product_by_id }

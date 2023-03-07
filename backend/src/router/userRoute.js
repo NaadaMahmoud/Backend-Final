@@ -199,10 +199,22 @@ route.post("/deleteProduct/:id", async function (req, res) {
 
 // ******************** CHECKOUT *************************
 
-route.get("/", async function (req, res) {
-    let checkout = await userController.get_All_cart_Product()
-    res.send(checkout)
-})
+route.get("/order",verifyToken, userController.get_All_cart_Product)
+
+
+
+// ******************** CHECK PAYMENT *************************
+route.post("/CHECKPAYMENT", verifyToken, userController.post_address_Data)
+// route.post("/CHECKPAYMENT", verifyToken, async function(req, res) {
+//     console.log("*************************")
+//     console.log(req.body)
+//     let variable= await userController.post_address_Data(req.body)
+//     consolele.log("Done From Route")
+// })
+
+
+// ******************** CHECKOUT paypal *************************
+route.get("/CHECKOUTpaypal", verifyToken, userController.CHECKOUT_paypal)
 
 
 module.exports=route
