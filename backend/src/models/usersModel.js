@@ -19,6 +19,13 @@ let userSchema=mongoose.Schema({
     taxNumber:Number,
 
     cart:{type:Array},
+    cart:{type:Array,required:true},
+
+    order:{
+        product:{type:Array},
+        address:
+        { 
+            st: {
    
 
     orders:{type: [

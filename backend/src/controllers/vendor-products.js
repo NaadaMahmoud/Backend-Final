@@ -108,14 +108,14 @@ var deleteProductController = async (req, res) => {
 var updateProductController = async (req, res) => {
     console.log(req.params.id);
     console.log(req.body);
-
-    var result = await userService.updateUserDBService(req.params.id, req.body);
-
-    if (result) {
-        res.send({ "status": true, "message": "User Updateeeedddddd" });
-    } else {
-        res.send({ "status": false, "message": "User Updateeeedddddd Faileddddddd" });
-    }
+    
+    var result = await userService.updateUserDBService(req.params.id,req.body);
+ 
+     if (result) {
+        res.send({ "status": true, "message": "Product Updated"} );
+     } else {
+         res.send({ "status": false, "message": "Product Updated Failed" });
+     }
 }
 
 // ******************** get Product by id *************************
