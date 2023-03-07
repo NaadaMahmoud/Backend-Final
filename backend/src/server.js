@@ -21,7 +21,7 @@ const userRoute = require("./router/userRoute");
 const cartRoute = require('./router/cartRoute')
 const customerOrderDetailsRoute = require('./router/customerOrderDetailsRoute.js')
 const customerOrderProposalsRoute = require('./router/customOrderProposalsRoute.js')
-const proposalRoute = require('./router/proposalRoute')
+const proposalRoute = require('./router/proposalsRoute')
 
 
 const app = express();
