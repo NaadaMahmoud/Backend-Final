@@ -63,7 +63,8 @@ app.use("/checkout", userRoute)
 
 app.use("/proposal", customerOrderProposalsRoute)
 
-// app.use("/proposal", proposalRoute)
+app.use("/orderProposals", proposalRoute)
+
 //////////////////////// port /////////////////////////
 
 app.listen(5000,()=>{
