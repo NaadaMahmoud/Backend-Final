@@ -29,5 +29,5 @@ const upload = multer({storage: storage, fileFilter: multerFilter})
 const router = Router();
 // router.get("/", customOrderController.getCustomOrders)
 
-router.post("/",verifyToken,upload.array("image_Product",100), customOrderController.createCustomOrder)
+router.post("/c",verifyToken,upload.array("image_Product",100),customOrderController.createCustomOrder)
 module.exports=router

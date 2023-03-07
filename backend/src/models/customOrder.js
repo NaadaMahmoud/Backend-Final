@@ -47,6 +47,14 @@ const CustomOrderSchema=new mongoose.Schema({
         type:String,
         required:true
     },
+    categoryname:{
+        type:String,
+        required:true
+    },
+    subcategoryname:{
+        type:String,
+        required:true
+    },
     isclosed:{
         type:Boolean,
         default:false
