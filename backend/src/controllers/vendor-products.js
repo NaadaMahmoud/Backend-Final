@@ -108,13 +108,34 @@ var deleteProductController = async (req, res) => {
 var updateProductController = async (req, res) => {
     console.log(req.params.id);
     console.log(req.body);
-
-    var result = await userService.updateUserDBService(req.params.id, req.body);
-
-    if (result) {
-        res.send({ "status": true, "message": "User Updateeeedddddd" });
-    } else {
-        res.send({ "status": false, "message": "User Updateeeedddddd Faileddddddd" });
-    }
+    
+    var result = await userService.updateUserDBService(req.params.id,req.body);
+ 
+     if (result) {
+        res.send({ "status": true, "message": "Product Updated"} );
+     } else {
+         res.send({ "status": false, "message": "Product Updated Failed" });
+     }
 }
-module.exports = { allProducts, addProduct, getById, deleteProductController, updateProductController }
+
+// ******************** get Product by id *************************
+
+async function get_Product_by_id(id) {
+    data = await productModel.findOne({ _id: id })
+    return data;
+
+}
+
+
+// ******************** get all Product  *************************
+
+async function get_all_Product() {
+    data = await productModel.find()
+    return data;
+
+}
+
+
+
+
+module.exports = { allProducts, addProduct, getById, deleteProductController, updateProductController, get_Product_by_id, get_all_Product }
