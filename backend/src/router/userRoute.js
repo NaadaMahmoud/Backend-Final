@@ -205,12 +205,6 @@ route.get("/order",verifyToken, userController.get_All_cart_Product)
 
 // ******************** CHECK PAYMENT *************************
 route.post("/CHECKPAYMENT", verifyToken, userController.post_address_Data)
-// route.post("/CHECKPAYMENT", verifyToken, async function(req, res) {
-//     console.log("*************************")
-//     console.log(req.body)
-//     let variable= await userController.post_address_Data(req.body)
-//     consolele.log("Done From Route")
-// })
 
 
 // ******************** CHECKOUT paypal *************************
