@@ -34,7 +34,7 @@ app.use(cors({
 
 ///////////////////// routes ////////////////////////////
 
-app.use("/vendor",vendorRoute)
+app.use("/vendor",vendorRouter)
 app.use("/categories",categoryRouter)
 app.use("/subcategories",subCategoryRouter)
 app.use("/search",searchRouter)

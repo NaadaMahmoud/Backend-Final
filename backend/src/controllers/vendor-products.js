@@ -70,9 +70,9 @@ var updateProductController = async (req, res) =>
     var result = await userService.updateUserDBService(req.params.id,req.body);
  
      if (result) {
-        res.send({ "status": true, "message": "User Updateeeedddddd"} );
+        res.send({ "status": true, "message": "Product Updated"} );
      } else {
-         res.send({ "status": false, "message": "User Updateeeedddddd Faileddddddd" });
+         res.send({ "status": false, "message": "Product Updated Failed" });
      }
 }
 module.exports = {allProducts, addProduct, deleteProductController, updateProductController}
