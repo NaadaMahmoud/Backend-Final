@@ -19,35 +19,40 @@ let userSchema=mongoose.Schema({
     // state:String,
     // zip:Number,
     taxNumber:Number,
+
+    cart:{type:Array},
     cart:{type:Array,required:true},
-    // order:{
-    //     product: mongoose.Types.ObjectId,
-    //     ref: "product",
-    //     address:
-    //     {
-    //         blockNumber: {
-    //             type: Number,
-    //             default: 0,
-    //         },
-    //         st: {
-    //             type: String,
-    //             default: "",
-    //         },
-    //         city: {
-    //             type: String,
-    //             default: "",
-    //         },
-    //         area: {
-    //             type: String,
-    //             default: "",
-    //         },
-    //     },
-    //     time: {
-    //         type: Date,
-    //         default: Date.now,
-    //         required: true,
-    //     },
-    // }
+
+    order:{
+        product:{type:Array},
+        address:
+        { 
+            st: {
+                type: String,
+                default: "",
+            },
+            city: {
+                type: String,
+                default: "",
+            },
+            Country: {
+                type: String,
+                default: "",
+            },
+            Postcode: {
+                type: Number,
+                default: 0,
+            },
+        },
+        notes: {
+            type: String,
+            default: '',
+        },
+        Total_price: {
+            type: Number,
+            default: '',
+        },
+    }
     
     // taxNumber:Number,
 

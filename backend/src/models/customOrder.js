@@ -26,7 +26,7 @@ const CustomOrderSchema=new mongoose.Schema({
         required:true
     },
     colors: {
-        type: Array, 
+        type: String, 
         required:true
     },
     category:{
@@ -52,7 +52,7 @@ const CustomOrderSchema=new mongoose.Schema({
         default:false
     },
     proposals:{
-        type:Array
+        type:[]
     },
     duedate:{
         type:Date,

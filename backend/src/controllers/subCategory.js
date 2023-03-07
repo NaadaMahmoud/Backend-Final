@@ -1,6 +1,9 @@
 const asyncHandler=require('express-async-handler')
 const subCategoryModel=require('../models/subCategory')
 const CategoryModel=require('../models/category')
+const jwt = require('jsonwebtoken');
+const fs=require("fs");
+let secret = fs.readFileSync('secret.key')
 
 exports.createSubCategory=asyncHandler(async(req,res)=>{
     const name=req.body.name
@@ -25,14 +28,31 @@ exports.getSubCategories= asyncHandler(async(req,res)=>{
     // console.log(subCategories[0].category.name)
     res.status(200).json({data:subCategories,results:subCategories.length})
 })
+exports.getSubCategoriesbyName= asyncHandler(async(req,res)=>{
+    const subname=req.body.Sub_Category
+    const subCategories=await subCategoryModel.find({name:subname})
+    const subcatid= subCategories[0]._id
+    .populate({path:'category',select:'name -_id'},{path:'subCategory',select:'name -_id'})
+    // console.log(subCategories[0].category.name)
+    res.status(200).json({data:subCategories,results:subCategories.length})
+})
+
 
 exports.getSubCategoryById=asyncHandler( async(req,res)=>{
-    const id=req.params.id
-    const subCategory= await subCategoryModel.findById(id)
-    if(!subCategory){
-        res.status(404).json({msg:`No subcategory found with id ${id}`})
-    }
-    res.status(200).json({data:subCategory})
+    jwt.verify(req.token,secret,async (err,data)=>{
+        // console.log(data. data_of_login_user[0]._id)
+        if(err){
+            // law mafe4 token 
+            res.sendStatus(403)
+        }
+        else{
+            const id=req.params.id
+            const subCategory= await subCategoryModel.findById(id)
+            if(!subCategory){
+                res.status(404).json({msg:`No subcategory found with id ${id}`})
+            }
+            res.status(200).json({data:subCategory})
+}})
 })
 exports.updateSubCategory= asyncHandler(async(req,res)=>{
     const {id}=req.params
@@ -54,11 +74,36 @@ exports.deleteSubCategory=asyncHandler(async(req,res)=>{
     res.status(200).json({data:subCategory})
 })
 exports.getSubCategoriesOfCategoryById=asyncHandler( async(req,res)=>{
-    const id=req.params.id
-    const subCategory= await subCategoryModel.find({category:id})
-
-    if(!subCategory){
-        res.status(404).json({msg:`No category found with id ${id}`})
-    }
-    res.status(200).json({data:subCategory})
+    jwt.verify(req.token,secret,async (err,data)=>{
+        // console.log(data. data_of_login_user[0]._id)
+        if(err){
+            // law mafe4 token 
+            res.sendStatus(403)
+        }
+        else{
+            const id=req.params.id
+            const subCategory= await subCategoryModel.find({category:id})
+            if(!subCategory){
+                res.status(404).json({msg:`No category found with id ${id}`})
+            }
+            res.status(200).json({data:subCategory})
+}})
 })
+exports.getSubCategoriesOfCategoryBycatname=asyncHandler( async(req,res)=>{
+
+    jwt.verify(req.token,secret,async (err,data)=>{
+   const  name=req.params.name
+   console.log(name)
+   const categories=await CategoryModel.find({name:name})
+   console.log(categories)
+
+const catid=categories[0]._id
+            
+            const subCategory= await subCategoryModel.find({category:catid})
+        
+            res.status(200).json({data:subCategory})
+})})
+
+
+
+

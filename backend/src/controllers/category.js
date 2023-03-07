@@ -1,7 +1,10 @@
 const CategoryModel = require("../models/category");
 const asyncHandler=require('express-async-handler')
-
+const jwt = require('jsonwebtoken');
+const fs=require("fs");
+let secret = fs.readFileSync('secret.key')
 exports.getCategories= asyncHandler(async(req,res)=>{
+   
     const categories=await CategoryModel.find({})
     res.status(200).json({data:categories,results:categories.length})
 })
