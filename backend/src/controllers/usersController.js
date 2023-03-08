@@ -193,6 +193,19 @@ let get_All_cart_Product= async (req, respons) => {
 }
  
 
+//////////////////////////////// Dash Board/////////////////////////////////
+
+let getAllClients = async (req,res)=>{
+    console.log("ClIENTS")
+    let users = await userModel.find({userType:"client"})
+    res.send(users)
+}
+let getAllVendors = async (req,res)=>{
+    console.log("VENDORS")
+    let users = await userModel.find({userType:"vendor"})
+    // let vendID = await userModel.findById({item.vendorID})
+    res.send(users)
+}
 
 
 
@@ -222,6 +235,7 @@ let post_address_Data = async (req, respons) => {
                 },
                  doc.orders[doc.orders.length - 1].notes = req.body.addInfo
                 doc.save()
+                respons.send(doc.orders[doc.orders.length - 1])
                console.log('data address save')
             });
             
@@ -231,6 +245,11 @@ let post_address_Data = async (req, respons) => {
 }
 
 
+//////////////////////////////// Dash Board/////////////////////////////////
+
+
+
+// ******************** CHECKOUT paypal *************************
 
 
 // ******************** CHECKOUT paypal *************************
@@ -255,6 +274,18 @@ let CHECKOUT_paypal = async (req, respons) => {
                         current.save()
                     })
                 
+                    userModel.findById(product.product.vendorID).then((vendor) => {
+                        vendor.notification.push({
+                            orderId: doc.orders[doc.orders.length - 1]._id,
+                            prouductId: product.product._id,
+                            payment: product.subTotal,
+                            quantity: prouduct.product.quantity,
+
+                        })
+                        vendor.save()
+                    })
+
+
                     console.log(product.product._id)  
                 })
               doc.save()  
@@ -264,6 +295,12 @@ let CHECKOUT_paypal = async (req, respons) => {
     }
     )
 }
+
+
+
+
+
+
 
 module.exports={
     login_user,
@@ -279,6 +316,8 @@ module.exports={
     update_user_city,
     update_user_zip,
     get_All_cart_Product,
+    getAllClients,
+    getAllVendors,
     post_address_Data,
     CHECKOUT_paypal,
     getUserData

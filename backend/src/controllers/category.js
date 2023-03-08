@@ -30,7 +30,7 @@ exports.createCategory = asyncHandler(async (req, res) => {
  console.log(name)
 
  console.log(req.file.path)
- const image=  "http://localhost:5000"+req.file.path.replace('\images','')
+ const image=  "http://localhost:5000"+req.file.path.replace('images','')
  console.log(image)
   const category= await CategoryModel.create({ name: name, image: image })
   res.status(201).json({ data: category })

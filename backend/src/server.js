@@ -24,7 +24,7 @@ const customerOrderProposalsRoute = require('./router/customOrderProposalsRoute.
 const proposalRoute = require('./router/proposalsRoute')
 const wishlistRoute = require('./router/wishlistRoute')
 const clientOrdersRoute = require('./router/clientOrdersRoute')
-
+const ordersRoute = require('./router/ordersRoute')
 
 const app = express();
 dotenv.config();
@@ -69,6 +69,10 @@ app.use("/custom", customOrderRouter)
 app.use("/checkout", userRoute)
 
 app.use("/proposal", customerOrderProposalsRoute)
+
+app.use("/orders",ordersRoute)
+
+app.use("/orders",ordersRoute)
 
 app.use("/orderProposals", proposalRoute)
 

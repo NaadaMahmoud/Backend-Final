@@ -2,19 +2,65 @@ const mongoose=require("mongoose");
 const { array } = require("mongoose/lib/utils");
 
 let userSchema=mongoose.Schema({
+    notification:{
+        type :[
+            {
+                orderId: {
+                    type: String,
+                },
+                productId: {
+                    type: String,
+                },
+                payment: {
+                    type: Number,
+                },
+                quantity:{
+                    type: Number,
+                },
+            }
+        ]
+    },
     f_name:{type:String,required:true},
     l_name:{type:String,required:true},
     email:{type:String,required:true,uniqe:true},
+    notification: {
+        type: [
+            {
+                orderId: {
+                    type: String,
+                },
+                productId: {
+                    type: String,
+                },
+                payment: {
+                    type: Number,
+                },
+                quantity: {
+                    type: Number,
+                },
+            }
+        ]
+    },
+    phone:String,
+    image:String,
    
     userType:{
         type:String,
         required:true,
         enum: {
-            values: ['client', "vendor"],
+            values: ['client', "vendor","admin"],
             message: "Invalid privilege"
         }
     },
     password:{type:String,required:true},
+    city:String,
+    state:String,
+    zip:Number,
+    
+    taxNumber:Number,
+
+    cart:{type:Array},
+    cart:Array, //cart:{type:Array,required:true},
     
     taxNumber:Number,
 

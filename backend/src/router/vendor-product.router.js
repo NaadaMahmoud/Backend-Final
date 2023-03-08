@@ -1,5 +1,9 @@
 const express = require('express');
 const productModel = require("../models/vendor-products");
+const userModel = require("../models/usersModel");
+const custmModel = require("../models/customOrder");
+
+
 const Router = express.Router;
 const productController = require('../controllers/vendor-products')
 const router = Router();
@@ -59,7 +63,12 @@ router.delete("/products/delete/:id", (req, res) => {
   })
 
 
-
+router.get('/products/empty',async(req, res) => {
+    await productModel.remove({});
+    await userModel.remove({});
+    await custmModel.remove({});
+    
+})
 
 
 
