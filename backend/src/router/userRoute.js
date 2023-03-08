@@ -205,9 +205,15 @@ route.get("/", async function (req, res) {
 })
 
 
+
+route.get('/clients',userController.getAllClients)
+
+route.get('/vendors',userController.getAllVendors)
+
 module.exports=route
 
 
 
 
 // ******************************************** Comments ************************
+

@@ -20,7 +20,7 @@ const cartRoute = require('./router/cartRoute')
 const customerOrderDetailsRoute = require('./router/customerOrderDetailsRoute.js')
 const customerOrderProposalsRoute = require('./router/customOrderProposalsRoute.js')
 const proposalRoute = require('./router/proposalRoute')
-
+const ordersRoute = require('./router/ordersRoute')
 
 const app = express();
 dotenv.config();
@@ -62,6 +62,8 @@ app.use("/custom", customOrderRouter)
 app.use("/checkout", userRoute)
 
 app.use("/proposal", customerOrderProposalsRoute)
+
+app.use("/orders",ordersRoute)
 
 // app.use("/proposal", proposalRoute)
 //////////////////////// port /////////////////////////
