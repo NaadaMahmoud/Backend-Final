@@ -4,24 +4,24 @@ let userSchema=mongoose.Schema({
     f_name:{type:String,required:true},
     l_name:{type:String,required:true},
     email:{type:String,required:true,uniqe:true},
-    // phone:String,
-    // image:String,
+    phone:String,
+    image:String,
     userType:{
         type:String,
         required:true,
         enum: {
-            values: ['client', "vendor"],
+            values: ['client', "vendor","admin"],
             message: "Invalid privilege"
         }
     },
     password:{type:String,required:true},
-    // city:String,
-    // state:String,
-    // zip:Number,
+    city:String,
+    state:String,
+    zip:Number,
     taxNumber:Number,
 
     cart:{type:Array},
-    cart:{type:Array,required:true},
+    cart:Array, //cart:{type:Array,required:true},
 
     order:{
         product:{type:Array},
