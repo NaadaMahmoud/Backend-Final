@@ -5,7 +5,6 @@ function verifyToken (req,res,next){
         const bearer=bearerHeader.split(' ')
         const token=bearer[1];
         req.token=token
-        console.log(bearerHeader);
         next()
     }
     else{
