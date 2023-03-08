@@ -206,9 +206,9 @@ let post_address_Data = async (req, respons) => {
                     country: req.body.address.country,
                     postcode: req.body.postcode,
                 },
-                    doc.orders[doc.orders.length - 1].notes = req.body.addInfo
+                 doc.orders[doc.orders.length - 1].notes = req.body.addInfo
                 doc.save()
-
+               console.log('data address save')
             });
             
             }
