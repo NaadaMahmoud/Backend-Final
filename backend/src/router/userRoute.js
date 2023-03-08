@@ -261,9 +261,15 @@ route.post("/CHECKPAYMENT", verifyToken, userController.post_address_Data)
 route.get("/CHECKOUTpaypal", verifyToken, userController.CHECKOUT_paypal)
 
 
+
+route.get('/clients',userController.getAllClients)
+
+route.get('/vendors',userController.getAllVendors)
+
 module.exports=route
 
 
 
 
 // ******************************************** Comments ************************
+

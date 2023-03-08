@@ -7,6 +7,7 @@ const CategoryModel = require('../models/category')
 const subCategoryModel = require('../models/subCategory')
 ////////// All products (for Market) ////////////
 let allProducts = async (req, res) => {
+    
     const products = await productModel.find();
     res.send(products);
 }
