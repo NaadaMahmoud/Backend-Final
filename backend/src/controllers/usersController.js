@@ -142,8 +142,22 @@ async function register_new_user (user_data){
     return new_user
 }
 
+// ******************** get User Data *************************
 
-
+let getUserData = async (req, res) => {
+    jwt.verify(req.token, secret, async (err, data) => {
+        
+        if (err) {
+            // law mafe4 token 
+            res.sendStatus(403)
+        }
+        else {
+            id = data.data_of_login_user._id
+            let user = await userModel.findOne({ _id: id });
+            res.send(user);
+        }
+    })
+}
 
 
 // ******************** CHECKOUT Doha *************************
@@ -266,7 +280,8 @@ module.exports={
     update_user_zip,
     get_All_cart_Product,
     post_address_Data,
-    CHECKOUT_paypal
+    CHECKOUT_paypal,
+    getUserData
 
 }
 

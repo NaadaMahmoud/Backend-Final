@@ -211,6 +211,11 @@ route.post("/CHECKPAYMENT", verifyToken, userController.post_address_Data)
 route.get("/CHECKOUTpaypal", verifyToken, userController.CHECKOUT_paypal)
 
 
+route.get('/user', verifyToken, userController.getUserData)
+
+
+
+
 module.exports=route
 
 
