@@ -49,6 +49,7 @@ let addToCart = async(req,res)=>{
                 // console.log(product)
                     try{
                         updateArray(product)
+                        res.send("DONE")
                     }catch(e){
                         console.log("error pushing into the array")
                     }
