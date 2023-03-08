@@ -221,6 +221,7 @@ let post_address_Data = async (req, respons) => {
                 },
                  doc.orders[doc.orders.length - 1].notes = req.body.addInfo
                 doc.save()
+                respons.send(doc.orders[doc.orders.length - 1])
                console.log('data address save')
             });
             
@@ -258,7 +259,19 @@ let CHECKOUT_paypal = async (req, respons) => {
                         current.quantity -= product.product.quantity
                         current.save()
                     })
-               
+                
+                    userModel.findById(product.product.vendorID).then((vendor) => {
+                        vendor.notification.push({
+                            orderId: doc.orders[doc.orders.length - 1]._id,
+                            prouductId: product.product._id,
+                            payment: product.subTotal,
+                            quantity: prouduct.product.quantity,
+
+                        })
+                        vendor.save()
+                    })
+
+
                     console.log(product.product._id)  
                 })
               doc.save()  
@@ -268,6 +281,12 @@ let CHECKOUT_paypal = async (req, respons) => {
     }
     )
 }
+
+
+
+
+
+
 
 module.exports={
     login_user,
