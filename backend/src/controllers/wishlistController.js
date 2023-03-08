@@ -64,7 +64,6 @@ async function checkIfProductIsAdded(productId){
         data.wishlist.forEach((item)=>{
             if(item._id == productId){
                 flag=true;
-                console.log("true")
             }
             
         })
