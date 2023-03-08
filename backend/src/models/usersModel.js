@@ -66,7 +66,7 @@ let userSchema=mongoose.Schema({
     
     // taxNumber:Number,
 
-});
+}}}});
 
 
 let userModel=mongoose.model("users",userSchema)

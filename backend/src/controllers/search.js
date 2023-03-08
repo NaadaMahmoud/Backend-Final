@@ -23,24 +23,24 @@ exports.getProductsbyCategory= asyncHandler(async(req,res)=>{
     console.log(id)
     console.log(vendid)
     console.log(des)
-    if(id!==undefined){
-        var products=await product.find({category:id})
+    // if(id!==undefined){
+        var products=await product.find({})
         arr.push(products)
-    }
-    if(des!=='#'){
-        var products=await product.find({colors:des})
-        arr.push(products)
-    }
-    if(vendid!==undefined){
-       var products=await product.find({vendorID:id})
-       arr.push(products)
-    }
-    if(min&&max!==undefined){
-    const products=await product.find({ price: { $gt: min, $lt: max }})
-    arr.push(products)
-    }
-// console.log(arr)
-    res.send(arr)
+    
+    // if(des!=='#'){
+    //     var products=await product.find({colors:des})
+    //     arr.push(products)
+    // }
+    // if(vendid!==undefined){
+    //    var products=await product.find({},{vendorID:id})
+    //    arr.push(products)
+    // }
+    // if(min&&max!==undefined){
+    // const products=await product.find({},{ price: { $gt: min, $lt: max }})
+    // arr.push(products)
+    // }
+console.log(arr)
+    res.send(products)
 })
 exports.getProductsbyColor= asyncHandler(async(req,res)=>{
   
