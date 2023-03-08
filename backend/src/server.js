@@ -1,3 +1,5 @@
+
+
 const dotenv = require('dotenv');
 const express = require('express');
 const cors = require('cors');
@@ -19,7 +21,9 @@ const userRoute = require("./router/userRoute");
 const cartRoute = require('./router/cartRoute')
 const customerOrderDetailsRoute = require('./router/customerOrderDetailsRoute.js')
 const customerOrderProposalsRoute = require('./router/customOrderProposalsRoute.js')
-
+const proposalRoute = require('./router/proposalsRoute')
+const wishlistRoute = require('./router/wishlistRoute')
+const clientOrdersRoute = require('./router/clientOrdersRoute')
 
 
 const app = express();
@@ -58,10 +62,18 @@ app.use("/subcategories",subCategoryRouter)
 app.use("/search",searchRouter)
 app.use("/users",userRoute)
 app.use("/cart", cartRoute)
+
+// app.use("/checkout", userRoute)
+
 app.use("/custom", customOrderRouter)
 app.use("/checkout", userRoute)
 
 app.use("/proposal", customerOrderProposalsRoute)
+
+app.use("/orderProposals", proposalRoute)
+
+app.use('/wishlist', wishlistRoute)
+app.use('/clientHistory',clientOrdersRoute)
 //////////////////////// port /////////////////////////
 
 app.listen(5000,()=>{

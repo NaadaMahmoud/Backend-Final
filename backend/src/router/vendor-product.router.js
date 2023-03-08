@@ -69,18 +69,53 @@ router.delete("/products/delete/:id", (req, res) => {
 
 
 // update Product 
-router.put("/products/edit/:id", upload.array("image_Product",100), (req,res) => {
+// router.put("/products/edit/:id", upload.array("image_Product",100), (req,res) => {
 
-  let pathLink = "http://localhost:5000/"
-        let arr=[];
-        for(const a of req.files){
-            arr.push(pathLink+a.path.split('\\')[1]);
-            // console.log(a.path.split('\\')[1]);
-        }
+//   let pathLink = "http://localhost:5000/"
+//         let arr=[];
+//         for(const a of req.files){
+//             arr.push(pathLink+a.path.split('\\')[1]);
+//             // console.log(a.path.split('\\')[1]);
+//         }
+
+//   let productModel = {
+//       title:  req.body.title,
+//       images: arr,
+//       quantity: req.body.quantity,
+//       price: req.body.price,
+//       dimensions : req.body.dimensions,
+//       matrial :   req.body.matrial,
+//       colors :   req.body.colors,
+//       overview :   req.body.overview,
+//       category :   req.body.category,
+//       subcategory :   req.body.subcategory,
+//   }
+
+
+//   if(mongoTypes.ObjectId.isValid(req.params.id)) {
+//     productModel.findByIdAndUpdate(req.params.id ,{$set : productModel},{new : true}, (err,doc) => {
+//           if(err) {
+//               console.log('Internal error',err);
+//               res.status(400).send('Internal error',err);
+//           } else {
+//               res.send(doc);
+//           }
+//       })
+//   } else {
+//       res.status(400).send('No record found with id :',id);
+//   }
+// })
+
+
+
+
+
+////////////////update Product ///////////////
+router.put("/products/edit/:id", upload.array("image_Product",100), (req,res) => {
 
   let productModel = {
       title:  req.body.title,
-      images: arr,
+      images: req.body.images,
       quantity: req.body.quantity,
       price: req.body.price,
       dimensions : req.body.dimensions,
@@ -106,13 +141,32 @@ router.put("/products/edit/:id", upload.array("image_Product",100), (req,res) =>
   }
 })
 
+//get All Product ******Doha*******
 
-
-//get Product by id
-
-router.get("/products/byid/:id", async (req, res) => {
-  const { id } = req.params;
+router.get("/Allproducts", async (req, res) => {
+    
+    let get_All_Product = await productController.get_all_Product()
+    res.send(get_All_Product)
 })
+
+
+
+//get Product by id******Doha*******
+
+router.get("/products/productbyId/:id", async (req, res) => {
+  const { id } = req.params;
+    let get_Product_by_id = await productController.get_Product_by_id(id)
+    res.send(get_Product_by_id)
+})
+
+
+
+
+
+
+
+
+
 //////////////////update Product ///////////////
 // router.put('/:id',(req,res) => {
 
@@ -143,26 +197,6 @@ router.get("/products/byid/:id", async (req, res) => {
 //       res.status(400).send('No record found with id :',id);
 //   }
 // })
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
 
 
 module.exports=router;
