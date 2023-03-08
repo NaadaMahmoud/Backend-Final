@@ -167,6 +167,56 @@ route.post("/login",async function( req,res){
 })
 
 
+// *************************get_clientName*******************************
+route.post("/get_clientName",async function( req,res){
+    console.log("req.body");
+    console.log(req.body);
+    let clientId=req.body._doc.clientID
+    console.log(clientId);
+  
+    let clinetData = await userModel.findOne ({_id:clientId})
+    // console.log("sdcsdcsdcsdcsdcsdcsdc",clinetData);
+    // let f_name=clinetData.f_name;
+    // let l_name=clinetData.l_name;
+    // let full_name=f_name + " "+l_name
+    // let =f_name + " "+l_name
+    // console.log(full_name);
+    res.json({
+        messege:"client data returned succsessfully",
+        status:200,
+        data:clinetData,
+    })
+
+    
+//     if(data_of_login_user.length==0)
+//     {
+     
+//         const user = await userModel.findOne({ email: req.body.email.toLowerCase() })
+//         const isValidPassword = await bcrypt.compare(req.body.password, user.password);
+//             if (isValidPassword) {
+//                 jwt.sign({data_of_login_user},secret,(err,token)=>{
+//                     console.log(data_of_login_user)
+//                     res.json({
+//                         message:"Login Successfully",
+//                         status:200,
+//                         data:user,
+//                         token:token,
+//                         userType:data_of_login_user.userType
+//                     })
+//             })
+//             }
+//             else {
+//                     }
+
+
+
+//     console.log("User logged in successfully ");
+    
+// }
+    
+})
+
+
 
 //************************ verifyToken ************************
 
@@ -199,10 +249,16 @@ route.post("/deleteProduct/:id", async function (req, res) {
 
 // ******************** CHECKOUT *************************
 
-route.get("/", async function (req, res) {
-    let checkout = await userController.get_All_cart_Product()
-    res.send(checkout)
-})
+route.get("/order",verifyToken, userController.get_All_cart_Product)
+
+
+
+// ******************** CHECK PAYMENT *************************
+route.post("/CHECKPAYMENT", verifyToken, userController.post_address_Data)
+
+
+// ******************** CHECKOUT paypal *************************
+route.get("/CHECKOUTpaypal", verifyToken, userController.CHECKOUT_paypal)
 
 
 

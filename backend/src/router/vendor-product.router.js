@@ -141,13 +141,32 @@ router.put("/products/edit/:id", upload.array("image_Product",100), (req,res) =>
   }
 })
 
+//get All Product ******Doha*******
 
-
-//get Product by id
-
-router.get("/products/byid/:id", async (req, res) => {
-  const { id } = req.params;
+router.get("/Allproducts", async (req, res) => {
+    
+    let get_All_Product = await productController.get_all_Product()
+    res.send(get_All_Product)
 })
+
+
+
+//get Product by id******Doha*******
+
+router.get("/products/productbyId/:id", async (req, res) => {
+  const { id } = req.params;
+    let get_Product_by_id = await productController.get_Product_by_id(id)
+    res.send(get_Product_by_id)
+})
+
+
+
+
+
+
+
+
+
 //////////////////update Product ///////////////
 // router.put('/:id',(req,res) => {
 
@@ -178,26 +197,6 @@ router.get("/products/byid/:id", async (req, res) => {
 //       res.status(400).send('No record found with id :',id);
 //   }
 // })
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
 
 
 module.exports=router;

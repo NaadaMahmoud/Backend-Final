@@ -49,6 +49,7 @@ let addToCart = async(req,res)=>{
                 // console.log(product)
                     try{
                         updateArray(product)
+                        res.send("DONE")
                     }catch(e){
                         console.log("error pushing into the array")
                     }
@@ -80,7 +81,7 @@ async function updateArray(product){
     
    let originalQty = product.quantity;
     product.quantity=1;
-    let add=await userModel.updateOne({_id:userId},{$push : {cart :{product, originalQty:originalQty}}});
+    let add = await userModel.updateOne({ _id: userId }, { $push: { cart: { product, originalQty: originalQty, subTotal:product.price}}});
     console.log('pushed successfully')
 }
 //////////////////////////////////////// Update Cart ////////////////////////////////////
@@ -102,8 +103,10 @@ let updateCart = async(req,res)=>{
                     if(item.product._id.toString() === req.params.id){
                         if(item.product.quantity <= item.originalQty){
                             item.product.quantity = req.body.quantity;
+                            item.subTotal = item.product.quantity * item.product.price;
                         }else{
                             item.product.quantity = item.originalQty;
+                            item.subTotal = item.originalQty * item.product.price;
                         }
                        
                     }

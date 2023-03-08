@@ -1,5 +1,8 @@
 const userModel = require("../models/usersModel.js")
 
+const jwt = require('jsonwebtoken');
+const fs = require("fs");
+let secret = fs.readFileSync('secret.key')
 
 // ******************** Update *************************
 
@@ -108,7 +111,6 @@ async function update_user_zip (email,zip){
 
 
 
-
 // ******************** check_if_email_exist *************************
 
 
@@ -126,11 +128,7 @@ async function login_user (email){
     email=email.toLowerCase();
     // console.log(email)
     let existed_user_data = await userModel.findOne({email:email})
-    return existed_user_data;
-
-
-
-    
+    return existed_user_data;    
 
 }
 
@@ -148,47 +146,38 @@ async function register_new_user (user_data){
 
 
 
-// ******************** CHECKOUT *************************
+// ******************** CHECKOUT Doha *************************
 
-// async function get_All_cart_Product(Id) {
-//     let res = await userModel.findOne({ _id: Id });
-//     let Totals=0;
-//     res.cart.map((item)=>{      
-//         Totals += item.price * item.quantity     
-//     })
-//     res.order.product = res.cart;
-//     res.cart=[];
-//     res.order.Total_price = Totals;
-//     res.save();
-//     return res;
-// }
-
-
-async function get_All_cart_Product() {async (req, res) => {
+let get_All_cart_Product= async (req, respons) => {
+    console.log(req)
     jwt.verify(req.token, secret, async (err, data) => {
-        console.log(data.data_of_login_user._id)
+        
         if (err) {
             // law mafe4 token 
-            res.sendStatus(403)
+            respons.sendStatus(403)
         }
         else {
             id = data.data_of_login_user._id
+            // console.log(data.data_of_login_user._id)
             let res = await userModel.findOne({ _id: id });
             let Totals = 0;
+            
             res.cart.map((item) => {
-                subTotal += item.price * item.quantity;
-                Totals += subTotal;
+                Totals += item.subTotal;
             })
-            res.order.product = res.cart;
-            res.cart = [];
-            res.order.Total_price = Totals;
+            // console.log(res.cart)
+            console.log(Totals)
+            let order = { products: res.cart, Total_price: Totals }
+            res.orders.push(order) 
+            
+            // res.cart = [];
             res.save();
-            return res.order;
+            return respons.json(res.orders[res.orders.length - 1]);
+           
         }
     })
 }
-} 
-
+ 
 
 //////////////////////////////// Dash Board/////////////////////////////////
 
@@ -197,7 +186,6 @@ let getAllClients = async (req,res)=>{
     let users = await userModel.find({userType:"client"})
     res.send(users)
 }
-
 let getAllVendors = async (req,res)=>{
     console.log("VENDORS")
     let users = await userModel.find({userType:"vendor"})
@@ -207,25 +195,79 @@ let getAllVendors = async (req,res)=>{
 
 
 
+// ******************** CHECKOUT  post_address_Data Doha *************************
+
+let post_address_Data = async (req, respons) => {
+
+    jwt.verify(req.token, secret, async (err, data) => {
+
+        if (err) {
+            // law mafe4 token 
+            respons.sendStatus(403)
+        }
+        else {
+            id = data.data_of_login_user._id
+            
+            console.log(".............................................")
+            console.log( "jjjjjjjjj",id)
+            let res = await userModel.findOne({ _id: id }).then(doc =>{
+                doc.orders[doc.orders.length - 1].address = {
+
+                    street: req.body.address.street,
+                    town: req.body.address.town,
+                    apartment: req.body.address.apartment,
+                    country: req.body.address.country,
+                    postcode: req.body.postcode,
+                },
+                 doc.orders[doc.orders.length - 1].notes = req.body.addInfo
+                doc.save()
+               console.log('data address save')
+            });
+            
+            }
+        }
+    )
+}
+
+
+//////////////////////////////// Dash Board/////////////////////////////////
 
 
 
+// ******************** CHECKOUT paypal *************************
 
 
+// ******************** CHECKOUT paypal *************************
+// 
+let CHECKOUT_paypal = async (req, respons) => {
 
+    jwt.verify(req.token, secret, async (err, data) => {
 
+        if (err) {
+            // law mafe4 token 
+            respons.sendStatus(403)
+        }
+        else {
+            id = data.data_of_login_user._id
 
+            let res = await userModel.findOne({ _id: id }).then(doc => {
 
+                doc.cart=[];
+                doc.orders[doc.orders.length - 1].products.map((product) =>{
+                    productModel.findOneById(product.product._id).then((current)=>{
+                        current.quantity -= product.product.quantity
+                        current.save()
+                    })
+               
+                    console.log(product.product._id)  
+                })
+              doc.save()  
+            });
 
-
-
-
-
-
-
-
-
-
+        }
+    }
+    )
+}
 
 module.exports={
     login_user,
@@ -242,7 +284,10 @@ module.exports={
     update_user_zip,
     get_All_cart_Product,
     getAllClients,
-    getAllVendors
+    getAllVendors,
+    post_address_Data,
+    CHECKOUT_paypal
+
 }
 
 

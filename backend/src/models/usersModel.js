@@ -1,45 +1,78 @@
-const mongoose=require("mongoose")
+const mongoose=require("mongoose");
+const { array } = require("mongoose/lib/utils");
 
 let userSchema=mongoose.Schema({
+    notification:{
+        type :[
+            {
+                orderId: {
+                    type: String,
+                },
+                productId: {
+                    type: String,
+                },
+                payment: {
+                    type: Number,
+                },
+                quantity:{
+                    type: Number,
+                },
+            }
+        ]
+    },
     f_name:{type:String,required:true},
     l_name:{type:String,required:true},
     email:{type:String,required:true,uniqe:true},
-    // phone:String,
-    // image:String,
+    phone:String,
+    image:String,
+   
     userType:{
         type:String,
         required:true,
         enum: {
-            values: ['client', "vendor"],
+            values: ['client', "vendor","admin"],
             message: "Invalid privilege"
         }
     },
     password:{type:String,required:true},
-    // city:String,
-    // state:String,
-    // zip:Number,
+    city:String,
+    state:String,
+    zip:Number,
+    
     taxNumber:Number,
 
     cart:{type:Array},
-    cart:{type:Array,required:true},
+    cart:Array, //cart:{type:Array,required:true},
+    
+    taxNumber:Number,
 
-    order:{
-        product:{type:Array},
-        address:
-        { 
-            st: {
+    cart:{type:Array},
+    wishlist:{type:Array},
+
+   
+   
+
+    orders:{type: [
+       { products: { type: Array },
+
+        address: {
+            street: {
                 type: String,
                 default: "",
             },
-            city: {
+            town: {
                 type: String,
                 default: "",
             },
-            Country: {
+            country: {
+                type: String,
+                default: "EGYPT",
+            }, 
+            apartment: {
                 type: String,
                 default: "",
             },
-            Postcode: {
+            postcode: {
                 type: Number,
                 default: 0,
             },
@@ -51,8 +84,9 @@ let userSchema=mongoose.Schema({
         Total_price: {
             type: Number,
             default: '',
-        },
-    }
+        },}
+    ]}
+       
     
     // taxNumber:Number,
 

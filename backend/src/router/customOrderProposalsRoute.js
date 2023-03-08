@@ -6,7 +6,9 @@ const fs=require("fs");
 const {verifyToken} = require('../shared/functions')
 let secret = fs.readFileSync('secret.key')
 const jwt=require('jsonwebtoken')
-
+const multer=require('multer');
+const { createNamedExports } = require("typescript");
+const path = require("path");
 
 
 
@@ -25,24 +27,70 @@ route.post("/get_proposals",async function( req,res){
     })
 
 
-route.post("/add_proposal",verifyToken,
+
+// **********************  Multer ************************
+const storage=multer.diskStorage({
+    destination:(req,file,cb)=>{
+        cb(null,'images')
+    },
+    filename:(req,file,cb)=>{
+        console.log(file);
+        cb(null,Date.now() + path.extname(file.originalname))
+    }
+})
+
+const upload = multer({storage:storage})
+
+
+
+// ******************************************************
+route.post("/add_proposal",verifyToken,upload.array("work_samples",5),
 async function( req,res){
-       console.log("Here in Backend /add_proposal Router");
-    //    console.log("req.body.id = ", req.body);
-    jwt.verify(req.token,secret,async (err,data)=>{
-       console.log("data = ", data);
+    //    console.log("Here in Backend /add_proposal Router");
+    //    console.log("req.files = ", req.files);
+     jwt.verify(req.token,secret,async (err,data)=>{
+    //    console.log("data = ", data);
         if(err){
             res.send(403)
         }
         else{
-            console.log("vendor_data = ",data);
-            console.log("vendor_id = ",req.body.vendorId);
-            console.log("custom order id = ",req.body.id);
-            console.log("req.body = ",req.body);
+            // console.log("vendor_data = ",data);
+            // console.log("vendor_id = ",req.body.vendorId);
+            // console.log("custom order id = ",req.body.id);
+            // console.log("req.body = ",req.body);
             // console.log("add proposal route");
-            let new_proposal_that_added = await customOrdersProposalscontroller.post_new_proposal (req.body.id,req.body)
+
+           
+           
+            const BASE_URL="http://localhost:5000/"
+            let multerArr=[]
+            let objectFilePath={}
+            for(let oldpath of req.files){
+                // console.log("oldPathhhhhhh= ",oldpath);
+                // let newpath=BASE_URL+oldpath.path.split(oldpath.path.split('\\')[1])
+                // let newpath2=BASE_URL+oldpath.path.split(oldpath.path.split('\\')[2])
+                let newpath2=BASE_URL+oldpath.filename
+                // console.log("first part",oldpath.path.split('\\')[0]);
+                // console.log("second part",oldpath.path.split('\\')[1]);
+                // console.log("third part",oldpath.path.split('\\')[2]);
+                // console.log("newpathhhhhhhhhhhhh= ",newpath);
+                // console.log("newpathhhhhhhhhhhhh= ",newpath2);
+                multerArr.push(newpath2)
+                // console.log("multerArr= ",multerArr);
+                objectFilePath={
+                    work_samples:multerArr
+                }
+            }
+            let objectProposal=Object.assign(req.body,objectFilePath)
+            console.log("objectProposallllllllllllll",objectProposal);
+
+
+
+
+
+            let new_proposal_that_added = await customOrdersProposalscontroller.post_new_proposal (req.body.customOrderId,objectProposal)
             // console.log("new_proposal_that_added=",new_proposal_that_added);
-            if(new_proposal_that_added.message=="Done"){
+            if(new_proposal_that_added.message =="Done"){
             res.json({
                     messege:"Done",
                     status:200
@@ -53,7 +101,6 @@ async function( req,res){
                     status:501
                 })
             }
-        
         }})
     }
     
