@@ -26,7 +26,8 @@ let addProduct = async (req, res) => {
                 let pathLink = "http://localhost:5000/"
                 let arr = [];
                 for (const a of req.files) {
-                    arr.push(pathLink + a.path.split('\\')[1]);
+                    arr.push("http://localhost:5000"+a.path.replace('images',''));
+                    ;
                     // console.log(a.path.split('\\')[1]);
                 }
 
@@ -35,14 +36,19 @@ let addProduct = async (req, res) => {
                     width: req.body.DimensionsW,
                     height: req.body.DimensionsH
                 }
-                console.log(req.body.Main_Category)
+                console.log(req.body.Color_Product.pop())
                 const categoryname = req.body.Main_Category
-                const category = await CategoryModel.find({ name: categoryname })
-                console.log(category)
-                const catid = category[0]._id
+
+                const category = await CategoryModel.find({ _id: categoryname })
+                console.log(req.body.Sub_Category)
+                console.log(req.body.Main_Category)
+                const subcategories = await subCategoryModel.find({name:req.body.Sub_Category})
+                    console.log(subcategories)
+                const subcatid = subcategories[0]._id
                 const subname = req.body.Sub_Category
-                const subCategories = await subCategoryModel.find({ name: subname })
-                const subcatid = subCategories[0]._id
+                const colorarr=req.body.Color_Product
+                // const subCategories = await subCategoryModel.find({ _id: subname })
+                // const subcatid = subCategories[0]._id
                 let product = new productModel({
                     title: req.body.Title_Product,
                     vendorID: userId,
@@ -51,14 +57,15 @@ let addProduct = async (req, res) => {
                     price: req.body.Price,
                     dimensions: dim,
                     matrial: req.body.Material,
-                    category: catid,
+                    category: categoryname,
                     subcategory: subcatid,
-                    colors: req.body.Color_Product,
+                    colors:colorarr,
                     overview: req.body.Description
                 })
                 try {
                     product = await product.save()
                     console.log("product saved")
+                    //console.log(colorarr)
                 } catch (e) {
                     console.log(e)
                 }

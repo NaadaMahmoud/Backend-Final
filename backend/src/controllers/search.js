@@ -13,34 +13,41 @@ const products=await product.find({title:{$regex:name}})
     res.status(200).json({data:products,results:products.length})
 })
 exports.getProductsbyCategory= asyncHandler(async(req,res)=>{
-    var arr=[]
-    const id=req.body.cat
+    var arr=await product.find({})
+    const id=req.body.catid
     const color=req.body.color
+    console.log(color)
     const des='#'+color
-    const vendid=req.body.vendid
-    const min=req.body.min
-    const  max=req.body.max
-    console.log(id)
-    console.log(vendid)
     console.log(des)
-    // if(id!==undefined){
-        var products=await product.find({})
-        arr.push(products)
+    const vendid=req.body.vendid
+    const min=req.body.minValue
+    const  max=req.body.maxValue
+    console.log(id)
+    console.log(arr.length)
+    console.log(req.body)
+     if(id!==undefined){
+        arr= arr.filter(product=>product.catergory==id)
+        
+        console.log(`category:${arr.length}`)
+     }
     
-    // if(des!=='#'){
-    //     var products=await product.find({colors:des})
-    //     arr.push(products)
-    // }
-    // if(vendid!==undefined){
-    //    var products=await product.find({},{vendorID:id})
-    //    arr.push(products)
-    // }
-    // if(min&&max!==undefined){
-    // const products=await product.find({},{ price: { $gt: min, $lt: max }})
-    // arr.push(products)
-    // }
-console.log(arr)
-    res.send(products)
+    if(vendid!==undefined){
+        arr=arr.filter(product=>product.vendorID==vendid)
+        console.log(`vendor:${arr.length}`)
+
+    }
+    if(min!==undefined&&max!==undefined){
+        arr=arr.filter(product=>product.price>min&&product.price<max)
+        console.log(`price:${arr.length}`)
+
+    }
+    if(des!=='#undefined'){
+        arr=arr.filter(product=>product.colors.find(elem=>elem==des)!==undefined)
+        console.log(`color:${arr.length}`)
+
+    }
+//console.log(arr)
+    res.send(arr)
 })
 exports.getProductsbyColor= asyncHandler(async(req,res)=>{
   
