@@ -4,6 +4,7 @@ const model = mongoose.model;
 
 const product_schema = new Schema(
     {
+        
         title: {type: String, required:true, unique:[true,"title must be unique"]},
         images: { type: Array, required:true },
         quantity: {type: Number, required:true, min:[1,"value must be more than 1"]},

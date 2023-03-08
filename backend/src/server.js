@@ -23,7 +23,8 @@ const customerOrderDetailsRoute = require('./router/customerOrderDetailsRoute.js
 const customerOrderProposalsRoute = require('./router/customOrderProposalsRoute.js')
 const proposalRoute = require('./router/proposalsRoute')
 const wishlistRoute = require('./router/wishlistRoute')
-
+const clientOrdersRoute = require('./router/clientOrdersRoute')
+const ordersRoute = require('./router/ordersRoute')
 
 const app = express();
 dotenv.config();
@@ -69,9 +70,14 @@ app.use("/checkout", userRoute)
 
 app.use("/proposal", customerOrderProposalsRoute)
 
+app.use("/orders",ordersRoute)
+
+app.use("/orders",ordersRoute)
+
 app.use("/orderProposals", proposalRoute)
 
 app.use('/wishlist', wishlistRoute)
+app.use('/clientHistory',clientOrdersRoute)
 //////////////////////// port /////////////////////////
 
 app.listen(5000,()=>{

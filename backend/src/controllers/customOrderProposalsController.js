@@ -14,26 +14,25 @@ async function getAllProposalOfSpecificCustomOrder (id){
 
 
 async function post_new_proposal (customOrderId,proposals_data){
-    console.log("post new proposal here in controller");
+    // console.log("post new proposal here in controller");
     // let new_proposal = await customOrdersProposalsModel.updateOne({_id:id},{$push:{proposals:proposals_data}})
     let flag="";
     await customOrderModel.findOne({_id:customOrderId})
     
     .then((data,error)=>{
         
-        // console.log("aaa",data)
+        // console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",data)
         // console.log("isClosed = ",data.isclosed)
         if(data.isclosed==false){
             // console.log("proposals_data.vendor Id",proposals_data.vendorId);
-            console.log("data . proposals",data.proposals);
-            let counter=0    
+            // console.log("data . proposals",data.proposals);
+            let counter=0 
+            console.log("vendorID",proposals_data.vendorId) ;  
             for (let i = 0; i < data.proposals.length; i++) {
-                    if(data.proposals[i].vendorId==proposals_data.vendorId){
+                    if(data.proposals[i].userId==proposals_data.userId || data.proposals[i].vendorId==proposals_data.userId){
                       counter++  
                     }  
-                    else{
-                        
-                    }   
+                      
                 }
                 console.log("counter= ",counter);
                 if(counter==0){
@@ -42,7 +41,7 @@ async function post_new_proposal (customOrderId,proposals_data){
                                 flag="Done";
                                 data.proposals.push(proposals_data)
                                 data.save();
-                                console.log("if = ",data.isclosed)
+                                console.log(" Proposal Pushed")
                                 return "Done"
                             }  
                             else{
