@@ -3,6 +3,7 @@ const subCategoryModel=require('../models/subCategory')
 const CategoryModel=require('../models/category')
 const jwt = require('jsonwebtoken');
 const fs=require("fs");
+
 let secret = fs.readFileSync('secret.key')
 
 exports.createSubCategory=asyncHandler(async(req,res)=>{
@@ -55,6 +56,20 @@ exports.getSubCategoryById=asyncHandler( async(req,res)=>{
             res.status(200).json({data:subCategory})
 }})
 })
+exports.getSubCategoryBy=asyncHandler( async(req,res)=>{
+    
+            const id=req.params.id
+            console.log(id)
+            const subcategory= await subCategoryModel.findById(id)
+            // const name=subcategory
+            
+            console.log(`sending this: ${subcategory.name}`)
+            if(!subcategory){
+                res.status(404).json({msg:`No subcategory found with id ${id}`})
+            }
+            res.status(200).json({data:subcategory.name})
+})
+
 exports.updateSubCategory= asyncHandler(async(req,res)=>{
     const {id}=req.params
     const {name,category}=req.body

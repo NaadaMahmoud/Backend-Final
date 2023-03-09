@@ -30,6 +30,8 @@ const upload = multer({storage: storage, fileFilter: multerFilter})
 const router = Router();
 router.get("/", categoryController.getCategories)
 router.get("/:id",verifyToken, categoryController.getCategoryById)
+router.get("/pag/:id",verifyToken, categoryController.getCategoryfor)
+
 router.post("/add",verifyToken, upload.single('image'),categoryController.createCategory)
 router.put("/:id",verifyToken, upload.single('image'),categoryController.updateCategory)
 router.delete('/:id',verifyToken,categoryController.deleteCategory)

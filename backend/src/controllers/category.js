@@ -19,10 +19,22 @@ exports.getCategories= asyncHandler(async(req,res)=>{
 exports.getCategoryById=asyncHandler( async(req,res)=>{
     const id=req.params.id
     const category= await CategoryModel.findById(id)
+
     if(!category){
         res.status(404).json({msg:`No category found with id ${id}`})
     }
     res.status(200).json({data:category})
+
+})
+exports.getCategoryfor=asyncHandler( async(req,res)=>{
+    const id=req.params.id
+    const category= await CategoryModel.findById(id)
+    const name=category.name
+    if(!category){
+        res.status(404).json({msg:`No category found with id ${id}`})
+    }
+    console.log(name)
+    res.status(201).json({ data: name })
 })
 
 exports.createCategory = asyncHandler(async (req, res) => {
