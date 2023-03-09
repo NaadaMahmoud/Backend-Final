@@ -48,7 +48,7 @@ app.use(express.static("images"));
 //backend on localHost 5000
 app.use(cors({
     credentials:true,
-    origin:'http://localhost:4200'
+    origin:'*'
 }));
 
 
