@@ -240,7 +240,7 @@ let CHECKOUT_paypal = async (req, respons) => {
                         current.quantity -= product.product.quantity
                         current.save()
                     })
-                
+               
                     console.log(product.product._id)  
                 })
               doc.save()  

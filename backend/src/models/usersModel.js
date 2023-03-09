@@ -2,6 +2,24 @@ const mongoose=require("mongoose");
 const { array } = require("mongoose/lib/utils");
 
 let userSchema=mongoose.Schema({
+    notification:{
+        type :[
+            {
+                orderId: {
+                    type: String,
+                },
+                productId: {
+                    type: String,
+                },
+                payment: {
+                    type: Number,
+                },
+                quantity:{
+                    type: Number,
+                },
+            }
+        ]
+    },
     f_name:{type:String,required:true},
     l_name:{type:String,required:true},
     email:{type:String,required:true,uniqe:true},
