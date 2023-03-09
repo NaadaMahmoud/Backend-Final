@@ -1,5 +1,5 @@
 const userModel = require("../models/usersModel.js")
-
+const productModel=require("../models/vendor-products.js")
 const jwt = require('jsonwebtoken');
 const fs = require("fs");
 let secret = fs.readFileSync('secret.key')
@@ -266,27 +266,46 @@ let CHECKOUT_paypal = async (req, respons) => {
             id = data.data_of_login_user._id
 
             let res = await userModel.findOne({ _id: id }).then(doc => {
-
+            console.log("i am in find one user");
                 doc.cart=[];
-                doc.orders[doc.orders.length - 1].products.map((product) =>{
-                    productModel.findOneById(product.product._id).then((current)=>{
-                        current.quantity -= product.product.quantity
+                doc.orders[doc.orders.length - 1].products.forEach((orderItem) =>{
+                    console.log("i am in find one product");
+                    productModel.findById(orderItem.product._id).then((current)=>{
+                       if(current!=null){
+                        if(current.quantity<orderItem.product.quantity){
+                            respons.json({
+                                messege:"you can't buy this product"
+                            }
+                            )
+                        
+                        }
+                        current.quantity -= orderItem.product.quantity
                         current.save()
+                       
+                    }
+                       
                     })
                 
-                    userModel.findById(product.product.vendorID).then((vendor) => {
+                    userModel.findById(orderItem.product.vendorID).then((vendor) => {
+                    console.log("i am in find one vendor");
+                        
                         vendor.notification.push({
                             orderId: doc.orders[doc.orders.length - 1]._id,
-                            prouductId: product.product._id,
-                            payment: product.subTotal,
-                            quantity: prouduct.product.quantity,
+                            productId: orderItem.product._id,
+                            payment: orderItem.subTotal,
+                            quantity: orderItem.product.quantity,
+                            image:orderItem.product.images[0],
+                            title:orderItem.product.title,
+                            overview:orderItem.product.overview,
+
+
 
                         })
-                        vendor.save()
+                        vendor.save();
                     })
 
 
-                    console.log(product.product._id)  
+                    console.log(orderItem.product._id)  
                 })
               doc.save()  
             });

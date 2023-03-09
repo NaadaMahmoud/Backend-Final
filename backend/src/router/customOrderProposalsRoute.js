@@ -81,7 +81,8 @@ async function( req,res){
                     work_samples:multerArr
                 }
             }
-            let objectProposal=Object.assign(req.body,objectFilePath)
+            let status={status:"pending"}
+            let objectProposal=Object.assign(req.body,objectFilePath,status)
             console.log("objectProposallllllllllllll",objectProposal);
 
 

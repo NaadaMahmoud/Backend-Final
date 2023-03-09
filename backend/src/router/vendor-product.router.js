@@ -2,17 +2,20 @@ const express = require('express');
 const productModel = require("../models/vendor-products");
 const userModel = require("../models/usersModel");
 const custmModel = require("../models/customOrder");
-
-
+const jwt=require("jsonwebtoken")
+const fs=require('fs')
+let secret = fs.readFileSync('secret.key')
 const Router = express.Router;
 const productController = require('../controllers/vendor-products')
 const router = Router();
 const mongoTypes = require('mongoose').Types;
 const {verifyToken} = require('../shared/functions')
+// const userModel=require("")
 
 /////////////// multer ////////////////////
 
-const multer = require('multer')
+const multer = require('multer');
+const { clearScreenDown } = require('readline');
 const storage = multer.diskStorage({
     destination: function(req, file, cb){
         cb(null,'images');
@@ -64,15 +67,51 @@ router.delete("/products/delete/:id", (req, res) => {
 
 
 router.get('/products/empty',async(req, res) => {
-    await productModel.remove({});
-    await userModel.remove({});
-    await custmModel.remove({});
+    
+    userModel.findOne({_id:"6408d87c6a839bbd83d078c2"}).then((userData)=> {
+        console.log(userData);
+        userData.notification =[]
+            // console.log(data.notification);
+            userData.save();
+            res.status(200).json({success: true, message: "empty", data: userData});
+        
+        }).catch((err)=> {
+            console.log(err);
+            res.status(500).json({success: false, message: err.message})
+        })
     
 })
 
 
 
+    
 
+
+
+router.get("/orders",verifyToken,async(req,res)=>{
+    jwt.verify(req.token,secret,async (err,user)=>{
+        console.log(req.token);
+        if(err){
+            // law mafe4 token 
+            res.sendStatus(403)
+        }
+        else{
+            
+            // console.log(err);
+            console.log(user.data_of_login_user._id);
+            let uderId=user.data_of_login_user._id
+       userModel.findById(uderId).then((data)=>{
+       res.json({
+        data:data
+       })
+       }).catch((err)=>{
+        res.json({
+            messege:"vendor not found"
+        })
+    
+    })
+       }})
+    })
 
 //////////////////////////////////////////
 

@@ -17,6 +17,16 @@ let userSchema=mongoose.Schema({
                 quantity:{
                     type: Number,
                 },
+                image: {
+                    type: String,
+                },
+                title: {
+                    type: String,
+                },
+                overview: {
+                    type: String,
+                },
+                
             }
         ]
     },
@@ -37,6 +47,15 @@ let userSchema=mongoose.Schema({
                 },
                 quantity: {
                     type: Number,
+                },
+                image: {
+                    type: String,
+                },
+                title: {
+                    type: String,
+                },
+                overview: {
+                    type: String,
                 },
             }
         ]
@@ -71,7 +90,8 @@ let userSchema=mongoose.Schema({
    
 
     orders:{type: [
-       { products: { type: Array },
+       { 
+        products: { type: Array },
 
         address: {
             street: {
@@ -102,7 +122,8 @@ let userSchema=mongoose.Schema({
         Total_price: {
             type: Number,
             default: '',
-        },}
+        },
+        }
     ]}
        
     

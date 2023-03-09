@@ -72,7 +72,7 @@ app.use("/proposal", customerOrderProposalsRoute)
 
 app.use("/orders",ordersRoute)
 
-app.use("/orders",ordersRoute)
+// app.use("/orders",ordersRoute)
 
 app.use("/orderProposals", proposalRoute)
 

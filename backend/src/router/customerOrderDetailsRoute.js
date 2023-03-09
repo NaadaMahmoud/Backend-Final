@@ -21,7 +21,7 @@ const route=express.Router()
 
 //************************ Get Job Details ************************
 
-route.get("/Details/:id",async function (req,res){
+route.get("/details/:id",async function (req,res){
 
     // console.log("CustomOrderDetails  ID = ", req.params.id)
     let returnedCustomOrderDetails = await customnOrderDetailsController.getCustomOrderDetails_by_id (req.params.id)
