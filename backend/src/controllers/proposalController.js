@@ -47,6 +47,7 @@ let displayProposal = async (req,res)=>{
                 data.proposals.forEach( async (item)=>{
                     let user = await userModel.findById(item.userId)
                     output.push(Object.assign(item,{userFirstName:user.f_name},{userLastName:user.l_name}))
+                    console.log(output)
                 })
                 
             })
@@ -54,7 +55,7 @@ let displayProposal = async (req,res)=>{
             let client = await userModel.findById(userId);
 
             let obj ={proposal,output,client}
-            console.log(obj)
+            // console.log(obj)
             res.send(obj)
     }
 })
@@ -122,7 +123,6 @@ let reject = async (req,res)=>{
 ////////////// Display Vendor /////////////////
 
 let displayVendor = async (req,res)=>{
-    console.log("in vendor")
     jwt.verify(req.token,secret,async (err,data)=>{       
         if(err){
             // law mafe4 token 

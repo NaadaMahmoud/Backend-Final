@@ -26,6 +26,7 @@ const wishlistRoute = require('./router/wishlistRoute')
 const clientOrdersRoute = require('./router/clientOrdersRoute')
 const ordersRoute = require('./router/ordersRoute')
 
+const jobsRoute = require('./router/jobsRoute')
 const app = express();
 dotenv.config();
 dbConnect();
@@ -78,6 +79,8 @@ app.use("/orderProposals", proposalRoute)
 
 app.use('/wishlist', wishlistRoute)
 app.use('/clientHistory',clientOrdersRoute)
+
+app.use('/jobs', jobsRoute)
 //////////////////////// port /////////////////////////
 
 app.listen(5000,()=>{
