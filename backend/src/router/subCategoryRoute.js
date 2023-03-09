@@ -22,6 +22,8 @@ const upload = multer({storage:storage})
 router.get('/',subcategoryController.getSubCategories)
 router.post("/add/:id",verifyToken, upload.single('image'),subcategoryController.createSubCategorybyId)
 router.get("/:id",verifyToken,subcategoryController.getSubCategoryById)
+router.get("/pag/:id",subcategoryController.getSubCategoryBy)
+
 router.put('/:id',verifyToken,subcategoryController.updateSubCategory)
 router.get('/cat/:id',verifyToken,subcategoryController.getSubCategoriesOfCategoryById)
 router.get('/:name',verifyToken,subcategoryController.getSubCategoriesOfCategoryBycatname)
