@@ -42,4 +42,21 @@ let categoryFilter = async (req, res) => {
 
 //////////////////////////////////////////////////////
 
-module.exports = { getAll, categoryFilter}
+let vendorJobs = async (req, res) => {
+    jwt.verify(req.token,secret,async (err,data)=>{       
+        if(err){
+            // law mafe4 token 
+            res.sendStatus(403)
+        }
+        else{
+            //user id
+            userId=data.data_of_login_user._id;
+            let jobs = await customOrderModel.find({"proposals.userId": userId});
+            // console.log(jobs)
+            res.send(jobs)
+        }
+    })
+}
+
+
+module.exports = { getAll, categoryFilter, vendorJobs}

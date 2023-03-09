@@ -14,4 +14,7 @@ router.get('/',jobsController.getAll)
 
 router.get('/catid/:id',jobsController.categoryFilter)
 ///////////////////////////////
+
+router.get('/vendorJobs',verifyToken, jobsController.vendorJobs)
+
 module.exports = router;
